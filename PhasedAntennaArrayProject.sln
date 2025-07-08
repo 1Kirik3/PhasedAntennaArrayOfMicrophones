@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36121.58 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PAAOM_Lib", "PhasedArrayMicrophone\PAAOM_Lib.csproj", "{EDDC3D3E-FF39-4708-8305-EE76EF27101F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PAAOM_Server", "PAAOM_Server\PAAOM_Server.csproj", "{F58DD0CB-300D-459C-9441-A06283744DFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PAAOM_Client", "PAAOM_Client\PAAOM_Client.csproj", "{60E389E4-AA64-4930-95D8-8F0D1DD96FEC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDDC3D3E-FF39-4708-8305-EE76EF27101F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDDC3D3E-FF39-4708-8305-EE76EF27101F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDDC3D3E-FF39-4708-8305-EE76EF27101F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDDC3D3E-FF39-4708-8305-EE76EF27101F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F58DD0CB-300D-459C-9441-A06283744DFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F58DD0CB-300D-459C-9441-A06283744DFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F58DD0CB-300D-459C-9441-A06283744DFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F58DD0CB-300D-459C-9441-A06283744DFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60E389E4-AA64-4930-95D8-8F0D1DD96FEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60E389E4-AA64-4930-95D8-8F0D1DD96FEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60E389E4-AA64-4930-95D8-8F0D1DD96FEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60E389E4-AA64-4930-95D8-8F0D1DD96FEC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C633F5B-8BCD-470B-AEB9-5DFD7142A297}
+	EndGlobalSection
+EndGlobal
