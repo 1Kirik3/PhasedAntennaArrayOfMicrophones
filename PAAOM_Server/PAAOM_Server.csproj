@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PhasedArrayMicrophone\PAAOM_Lib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Views\" />
   </ItemGroup>
 

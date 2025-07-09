@@ -12,7 +12,7 @@
             <ColumnDefinition Width="400*"/>
             <ColumnDefinition Width="379*"/>
         </Grid.ColumnDefinitions>
-        <Button Grid.Column="2" Content="Настройки" HorizontalAlignment="Left" Margin="172,46,0,0" VerticalAlignment="Top" Height="29" Width="68" Click="SettingsButton_Click"/>
+        <Button Grid.Column="2" Content="Настройки" HorizontalAlignment="Left" Margin="179,408,0,0" VerticalAlignment="Top" Height="29" Width="68" Click="SettingsButton_Click"/>
 
     </Grid>
 </Window>

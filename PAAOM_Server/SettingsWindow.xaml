@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:PAAOM_Server"
         Title="Параметры системы"
-        Width="500" Height="450"
+        Width="549" Height="514"
         WindowStartupLocation="CenterOwner">
 
     <Window.Resources>
@@ -21,7 +21,11 @@
     </Window.Resources>
 
     <Grid Margin="10">
-        <TabControl>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl Grid.ColumnSpan="2">
             <!-- Вкладка параметров среды -->
             <TabItem Header="Среда">
                 <StackPanel>
@@ -127,13 +131,6 @@
                                 <ComboBoxItem>16</ComboBoxItem>
                                 <ComboBoxItem>32</ComboBoxItem>
                             </ComboBox>
-
-                            <Label Content="Ориентация"/>
-                            <ComboBox SelectedIndex="0" Margin="0,0,0,10">
-                                <ComboBoxItem>Горизонтальная</ComboBoxItem>
-                                <ComboBoxItem>Вертикальная</ComboBoxItem>
-                                <ComboBoxItem>Круговая</ComboBoxItem>
-                            </ComboBox>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
@@ -142,6 +139,6 @@
 
         <Button Content="Применить" Command="{Binding ApplySettingsCommand}"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                Margin="0,10" Padding="20,5" FontWeight="Bold"/>
+                Margin="0,0,0,10" Padding="20,5" FontWeight="Bold" Grid.Column="1"/>
     </Grid>
 </Window>
