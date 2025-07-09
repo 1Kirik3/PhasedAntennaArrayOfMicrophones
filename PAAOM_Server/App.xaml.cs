@@ -1,7 +1,4 @@
 ﻿using PAAOM_Server.Models;
-using PAAOM_Server.ViewModels;
-using System.Configuration;
-using System.Data;
 using System.Windows;
 
 namespace PAAOM_Server

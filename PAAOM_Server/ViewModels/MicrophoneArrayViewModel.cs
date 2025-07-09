@@ -1,4 +1,5 @@
 ﻿using PAAOM_Server.Models;
+using PAAOM_Server.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Media.Media3D;
@@ -39,25 +40,49 @@ namespace PAAOM_Server.ViewModels
 		public float CenterX
 		{
 			get => (float)_array.ArrayCenter.X;
-			set { _array.ArrayCenter = new Point3D(value, _array.ArrayCenter.Y, _array.ArrayCenter.Z); OnPropertyChanged(); }
+			set
+			{
+				var oldValue = _array.ArrayCenter.X;
+				_array.ArrayCenter = new Point3D(value, _array.ArrayCenter.Y, _array.ArrayCenter.Z);
+				ChangeLogger.LogChange(nameof(CenterX), oldValue, value);
+				OnPropertyChanged();
+			}
 		}
 
 		public float CenterY
 		{
 			get => (float)_array.ArrayCenter.Y;
-			set { _array.ArrayCenter = new Point3D(_array.ArrayCenter.X, value, _array.ArrayCenter.Z); OnPropertyChanged(); }
+			set
+			{
+				var oldValue = _array.ArrayCenter.Y;
+				_array.ArrayCenter = new Point3D(_array.ArrayCenter.X, value, _array.ArrayCenter.Z);
+				ChangeLogger.LogChange(nameof(CenterY), oldValue, value);
+				OnPropertyChanged();
+			}
 		}
 
 		public float CenterZ
 		{
-			get => (float)_array.ArrayCenter.X;
-			set { _array.ArrayCenter = new Point3D(_array.ArrayCenter.X, _array.ArrayCenter.Y, value); OnPropertyChanged(); }
+			get => (float)_array.ArrayCenter.Z;
+			set
+			{
+				var oldValue = _array.ArrayCenter.Z;
+				_array.ArrayCenter = new Point3D(_array.ArrayCenter.X, _array.ArrayCenter.Y, value);
+				ChangeLogger.LogChange(nameof(CenterZ), oldValue, value);
+				OnPropertyChanged();
+			}
 		}
 
 		public float Radius
 		{
 			get => _array.Radius;
-			set { _array.Radius = value; OnPropertyChanged(); }
+			set
+			{
+				var oldValue = _array.Radius;
+				_array.Radius = value;
+				ChangeLogger.LogChange(nameof(Radius), oldValue, value);
+				OnPropertyChanged();
+			}
 		}
 
 		public int MicrophonesCount => _array.Microphones.Count;
