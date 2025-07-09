@@ -1,0 +1,41 @@
+﻿using PAAOM_Server.Models;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Windows.Input;
+
+namespace PAAOM_Server.ViewModels
+{
+	public class SettingsViewModel : INotifyPropertyChanged
+	{
+		public EnvironmentSettingsViewModel EnvironmentSettings { get; }
+		public AudioSourceViewModel AudioSource { get; }
+		public MicrophoneArrayViewModel MicrophoneArray { get; }
+
+		public ICommand ApplySettingsCommand { get; }
+
+		public SettingsViewModel(
+			EnvironmentSettings envSettings,
+			AudioSource audioSource,
+			MicrophoneArray microphoneArray)
+		{
+			EnvironmentSettings = new EnvironmentSettingsViewModel(envSettings);
+			AudioSource = new AudioSourceViewModel(audioSource);
+			MicrophoneArray = new MicrophoneArrayViewModel(microphoneArray);
+
+			ApplySettingsCommand = new RelayCommand(ApplySettings);
+		}
+
+		private void ApplySettings()
+		{
+			MicrophoneArray.UpdateGeometry();
+		}
+
+		public event PropertyChangedEventHandler? PropertyChanged;
+		protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}

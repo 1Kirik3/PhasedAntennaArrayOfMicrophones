@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PAAOM_Server"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="484" Width="582">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="21*"/>
+            <ColumnDefinition Width="400*"/>
+            <ColumnDefinition Width="379*"/>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="2" Content="Настройки" HorizontalAlignment="Left" Margin="172,46,0,0" VerticalAlignment="Top" Height="29" Width="68" Click="SettingsButton_Click"/>
 
     </Grid>
 </Window>

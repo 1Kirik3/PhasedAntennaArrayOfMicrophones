@@ -7,22 +7,6 @@
       "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|d:\\job\\stc\\phasedantennaarrayofmicrophones\\paaom_server\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|d:\\job\\stc\\phasedantennaarrayofmicrophones\\paaom_server\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|d:\\job\\stc\\phasedantennaarrayofmicrophones\\paaom_server\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|d:\\job\\stc\\phasedantennaarrayofmicrophones\\paaom_server\\models\\environmentsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\models\\environmentsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|d:\\job\\stc\\phasedantennaarrayofmicrophones\\paaom_server\\viewmodels\\settingsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\viewmodels\\settingsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -31,8 +15,16 @@
       "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\viewmodels\\environmentsettingsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|d:\\job\\stc\\phasedantennaarrayofmicrophones\\paaom_server\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|d:\\job\\stc\\phasedantennaarrayofmicrophones\\paaom_server\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|d:\\job\\stc\\phasedantennaarrayofmicrophones\\paaom_server\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|d:\\job\\stc\\phasedantennaarrayofmicrophones\\paaom_server\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -45,6 +37,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|d:\\job\\stc\\phasedantennaarrayofmicrophones\\paaom_server\\settingswindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\settingswindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|d:\\job\\stc\\phasedantennaarrayofmicrophones\\paaom_server\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|d:\\job\\stc\\phasedantennaarrayofmicrophones\\paaom_server\\viewmodels\\audiosourceviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -63,6 +59,10 @@
       "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\viewmodels\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|d:\\job\\stc\\phasedantennaarrayofmicrophones\\paaom_server\\models\\environmentsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\models\\environmentsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|d:\\job\\stc\\phasedantennaarrayofmicrophones\\paaom_server\\models\\audiosource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F58DD0CB-300D-459C-9441-A06283744DFE}|PAAOM_Server\\PAAOM_Server.csproj|solutionrelative:paaom_server\\models\\audiosource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -78,11 +78,36 @@
       "DocumentGroups": [
         {
           "DockedHeight": 242,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\App.xaml.cs",
+              "RelativeDocumentMoniker": "PAAOM_Server\\App.xaml.cs",
+              "ToolTip": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\App.xaml.cs",
+              "RelativeToolTip": "PAAOM_Server\\App.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T12:23:35.057Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SettingsWindow.xaml",
+              "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\SettingsWindow.xaml",
+              "RelativeDocumentMoniker": "PAAOM_Server\\SettingsWindow.xaml",
+              "ToolTip": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\SettingsWindow.xaml",
+              "RelativeToolTip": "PAAOM_Server\\SettingsWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-07-09T11:55:16.564Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "MainViewModel.cs",
               "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\ViewModels\\MainViewModel.cs",
               "RelativeDocumentMoniker": "PAAOM_Server\\ViewModels\\MainViewModel.cs",
@@ -101,14 +126,14 @@
               "RelativeDocumentMoniker": "PAAOM_Server\\MainWindow.xaml.cs",
               "ToolTip": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\MainWindow.xaml.cs",
               "RelativeToolTip": "PAAOM_Server\\MainWindow.xaml.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAowEMAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-08T11:30:18.948Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "EnvironmentSettingsViewModel.cs",
               "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\ViewModels\\EnvironmentSettingsViewModel.cs",
               "RelativeDocumentMoniker": "PAAOM_Server\\ViewModels\\EnvironmentSettingsViewModel.cs",
@@ -121,7 +146,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "SettingsViewModel.cs",
               "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\ViewModels\\SettingsViewModel.cs",
               "RelativeDocumentMoniker": "PAAOM_Server\\ViewModels\\SettingsViewModel.cs",
@@ -134,7 +159,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 4,
               "Title": "App.xaml",
               "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\App.xaml",
               "RelativeDocumentMoniker": "PAAOM_Server\\App.xaml",
@@ -146,32 +171,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "PAAOM_Server\\MainWindow.xaml",
-              "ToolTip": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\MainWindow.xaml",
-              "RelativeToolTip": "PAAOM_Server\\MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-07-08T11:30:19.561Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "App.xaml.cs",
-              "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\App.xaml.cs",
-              "RelativeDocumentMoniker": "PAAOM_Server\\App.xaml.cs",
-              "ToolTip": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\App.xaml.cs",
-              "RelativeToolTip": "PAAOM_Server\\App.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-09T12:23:35.057Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 7,
               "Title": "SettingsWindow.xaml.cs",
               "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\SettingsWindow.xaml.cs",
               "RelativeDocumentMoniker": "PAAOM_Server\\SettingsWindow.xaml.cs",
@@ -184,32 +184,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "EnvironmentSettings.cs",
-              "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\Models\\EnvironmentSettings.cs",
-              "RelativeDocumentMoniker": "PAAOM_Server\\Models\\EnvironmentSettings.cs",
-              "ToolTip": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\Models\\EnvironmentSettings.cs",
-              "RelativeToolTip": "PAAOM_Server\\Models\\EnvironmentSettings.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-09T09:36:52.32Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "SettingsWindow.xaml",
-              "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\SettingsWindow.xaml",
-              "RelativeDocumentMoniker": "PAAOM_Server\\SettingsWindow.xaml",
-              "ToolTip": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\SettingsWindow.xaml",
-              "RelativeToolTip": "PAAOM_Server\\SettingsWindow.xaml",
+              "DocumentIndex": 9,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "PAAOM_Server\\MainWindow.xaml",
+              "ToolTip": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\MainWindow.xaml",
+              "RelativeToolTip": "PAAOM_Server\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-07-09T11:55:16.564Z",
+              "WhenOpened": "2025-07-08T11:30:19.561Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 6,
               "Title": "AssemblyInfo.cs",
               "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\AssemblyInfo.cs",
               "RelativeDocumentMoniker": "PAAOM_Server\\AssemblyInfo.cs",
@@ -222,7 +209,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 11,
               "Title": "MicrophoneArray.cs",
               "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\Models\\MicrophoneArray.cs",
               "RelativeDocumentMoniker": "PAAOM_Server\\Models\\MicrophoneArray.cs",
@@ -235,7 +222,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 12,
               "Title": "MicrophoneArrayViewModel.cs",
               "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\ViewModels\\MicrophoneArrayViewModel.cs",
               "RelativeDocumentMoniker": "PAAOM_Server\\ViewModels\\MicrophoneArrayViewModel.cs",
@@ -248,7 +235,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 10,
               "Title": "AudioSourceViewModel.cs",
               "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\ViewModels\\AudioSourceViewModel.cs",
               "RelativeDocumentMoniker": "PAAOM_Server\\ViewModels\\AudioSourceViewModel.cs",
@@ -261,7 +248,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 13,
               "Title": "RelayCommand.cs",
               "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\ViewModels\\RelayCommand.cs",
               "RelativeDocumentMoniker": "PAAOM_Server\\ViewModels\\RelayCommand.cs",
@@ -270,6 +257,19 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-09T11:31:35.658Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "EnvironmentSettings.cs",
+              "DocumentMoniker": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\Models\\EnvironmentSettings.cs",
+              "RelativeDocumentMoniker": "PAAOM_Server\\Models\\EnvironmentSettings.cs",
+              "ToolTip": "D:\\Job\\STC\\PhasedAntennaArrayOfMicrophones\\PAAOM_Server\\Models\\EnvironmentSettings.cs",
+              "RelativeToolTip": "PAAOM_Server\\Models\\EnvironmentSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T09:36:52.32Z",
               "EditorCaption": ""
             },
             {

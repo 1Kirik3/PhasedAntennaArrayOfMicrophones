@@ -1,0 +1,147 @@
+﻿<Window x:Class="PAAOM_Server.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:PAAOM_Server"
+        Title="Параметры системы"
+        Width="500" Height="450"
+        WindowStartupLocation="CenterOwner">
+
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="0,10,0,0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <TabControl>
+            <!-- Вкладка параметров среды -->
+            <TabItem Header="Среда">
+                <StackPanel>
+                    <GroupBox Header="Параметры воздуха">
+                        <StackPanel>
+                            <Label Content="Температура воздуха (°C)"/>
+                            <TextBox Text="{Binding EnvironmentSettings.Temperature, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <Label Content="Уровень шума (0-1)"/>
+                            <TextBox Text="{Binding EnvironmentSettings.NoiseLevel, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <Label Content="Скорость звука (м/с)"/>
+                            <TextBlock Text="{Binding EnvironmentSettings.SoundSpeed, StringFormat={}{0:F2}}"
+                                      Margin="0,5" FontStyle="Italic"/>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Вкладка источника звука -->
+            <TabItem Header="Источник">
+                <StackPanel>
+                    <GroupBox Header="Позиция источника">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Label Content="X (м):" Grid.Row="0" Grid.Column="0"/>
+                            <TextBox Text="{Binding AudioSource.X, UpdateSourceTrigger=PropertyChanged}" 
+                                    Grid.Row="0" Grid.Column="1"/>
+
+                            <Label Content="Y (м):" Grid.Row="1" Grid.Column="0"/>
+                            <TextBox Text="{Binding AudioSource.Y, UpdateSourceTrigger=PropertyChanged}" 
+                                    Grid.Row="1" Grid.Column="1"/>
+
+                            <Label Content="Z (м):" Grid.Row="2" Grid.Column="0"/>
+                            <TextBox Text="{Binding AudioSource.Z, UpdateSourceTrigger=PropertyChanged}" 
+                                    Grid.Row="2" Grid.Column="1"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Header="Параметры сигнала">
+                        <StackPanel>
+                            <Label Content="Частота (Гц)"/>
+                            <TextBox Text="{Binding AudioSource.Frequency, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <Label Content="Амплитуда"/>
+                            <TextBox Text="{Binding AudioSource.Amplitude, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <Label Content="Фаза (рад)"/>
+                            <TextBox Text="{Binding AudioSource.Phase, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Вкладка геометрии решетки -->
+            <TabItem Header="Решетка">
+                <StackPanel>
+                    <GroupBox Header="Центр решетки">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Label Content="X (м):" Grid.Row="0" Grid.Column="0"/>
+                            <TextBox Text="{Binding MicrophoneArray.CenterX, UpdateSourceTrigger=PropertyChanged}" 
+                                    Grid.Row="0" Grid.Column="1"/>
+
+                            <Label Content="Y (м):" Grid.Row="1" Grid.Column="0"/>
+                            <TextBox Text="{Binding MicrophoneArray.CenterY, UpdateSourceTrigger=PropertyChanged}" 
+                                    Grid.Row="1" Grid.Column="1"/>
+
+                            <Label Content="Z (м):" Grid.Row="2" Grid.Column="0"/>
+                            <TextBox Text="{Binding MicrophoneArray.CenterZ, UpdateSourceTrigger=PropertyChanged}" 
+                                    Grid.Row="2" Grid.Column="1"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Header="Параметры решетки">
+                        <StackPanel>
+                            <Label Content="Радиус (м)"/>
+                            <TextBox Text="{Binding MicrophoneArray.Radius, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <Label Content="Количество микрофонов"/>
+                            <ComboBox SelectedItem="{Binding MicrophoneArray.MicrophoneCount}"
+                                     Margin="0,0,0,10">
+                                <ComboBoxItem>4</ComboBoxItem>
+                                <ComboBoxItem>8</ComboBoxItem>
+                                <ComboBoxItem>16</ComboBoxItem>
+                                <ComboBoxItem>32</ComboBoxItem>
+                            </ComboBox>
+
+                            <Label Content="Ориентация"/>
+                            <ComboBox SelectedIndex="0" Margin="0,0,0,10">
+                                <ComboBoxItem>Горизонтальная</ComboBoxItem>
+                                <ComboBoxItem>Вертикальная</ComboBoxItem>
+                                <ComboBoxItem>Круговая</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <Button Content="Применить" Command="{Binding ApplySettingsCommand}"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Margin="0,10" Padding="20,5" FontWeight="Bold"/>
+    </Grid>
+</Window>
