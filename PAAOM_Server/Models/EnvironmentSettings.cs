@@ -1,11 +1,15 @@
 ﻿
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
 namespace PAAOM_Server.Models
 {
-	public class EnvironmentSettings
+	public class EnvironmentSettings : INotifyPropertyChanged
 	{
-		public float TemperatureCelsius { get; set; } = 20f;
-		public float SoundSpeed => 331f + 0.6f * TemperatureCelsius;
-		public float NoiseLevel { get; set; } = 0.05f;
+		private float _temperatureCelsius = 20f;
+		private float _noiseLevel = 0.05f;
+
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public EnvironmentSettings()
 		{
@@ -16,5 +20,41 @@ namespace PAAOM_Server.Models
 			TemperatureCelsius = temperatureCelsius;
 			NoiseLevel = noiseLevel;
 		}
+
+		public float TemperatureCelsius
+		{
+			get => _temperatureCelsius;
+			set
+			{
+				if (_temperatureCelsius != value)
+				{
+					_temperatureCelsius = value;
+					OnPropertyChanged();
+					OnPropertyChanged(nameof(SoundSpeed));
+				}
+			}
+		}
+
+		public float SoundSpeed => 331f + 0.6f * TemperatureCelsius;
+
+		public float NoiseLevel
+		{
+			get => _noiseLevel;
+			set
+			{
+				if (_noiseLevel != value)
+				{
+					_noiseLevel = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+
 	}
 }

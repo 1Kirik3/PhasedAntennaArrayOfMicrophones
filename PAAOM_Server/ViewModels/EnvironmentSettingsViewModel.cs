@@ -15,6 +15,12 @@ namespace PAAOM_Server.ViewModels
 		public EnvironmentSettingsViewModel(EnvironmentSettings settings)
 		{
 			_settings = settings ?? throw new ArgumentNullException(nameof(settings));
+			_settings.PropertyChanged += OnSettingsPropertyChanged;
+		}
+
+		private void OnSettingsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			OnPropertyChanged(e.PropertyName);
 		}
 
 		public float Temperature
@@ -40,6 +46,8 @@ namespace PAAOM_Server.ViewModels
 				OnPropertyChanged(); 
 			}
 		}
+
+		public float SoundSpeed => _settings.SoundSpeed;
 
 		protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
 		{

@@ -11,6 +11,7 @@ namespace PAAOM_Server.ViewModels
 		private readonly MicrophoneArray _array;
 
 		public event PropertyChangedEventHandler? PropertyChanged;
+		public int MicrophonesCount => _array.Microphones.Count;
 
 		public MicrophoneArrayViewModel(MicrophoneArray array)
 		{
@@ -85,7 +86,20 @@ namespace PAAOM_Server.ViewModels
 			}
 		}
 
-		public int MicrophonesCount => _array.Microphones.Count;
+		public int MicrophoneCount
+		{
+			get => _array.MicrophonesCount;
+			set
+			{
+				if (_array.MicrophonesCount != value)
+				{
+					_array.MicrophonesCount = value;
+					_array.InitilizeMicrophones();
+					OnPropertyChanged();
+				}
+			}
+		}
+
 
 		protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
 		{

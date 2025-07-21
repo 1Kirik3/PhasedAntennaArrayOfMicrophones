@@ -83,7 +83,7 @@
                             <TextBox Text="{Binding AudioSource.Amplitude, UpdateSourceTrigger=PropertyChanged}"/>
 
                             <Label Content="Фаза (рад)"/>
-                            <TextBox Text="{Binding AudioSource.Phase, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Text="{Binding AudioSource.Phase, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumericTextBox_PreviewTextInput"/>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
@@ -124,8 +124,9 @@
                             <TextBox Text="{Binding MicrophoneArray.Radius, UpdateSourceTrigger=PropertyChanged}"/>
 
                             <Label Content="Количество микрофонов"/>
-                            <ComboBox SelectedItem="{Binding MicrophoneArray.MicrophoneCount}"
-                                     Margin="0,0,0,10">
+                            <ComboBox SelectedValue="{Binding MicrophoneArray.MicrophoneCount}"
+                                SelectedValuePath="Content"
+                                Margin="0,0,0,10">
                                 <ComboBoxItem>4</ComboBoxItem>
                                 <ComboBoxItem>8</ComboBoxItem>
                                 <ComboBoxItem>16</ComboBoxItem>
@@ -139,6 +140,6 @@
 
         <Button Content="Применить" Command="{Binding ApplySettingsCommand}"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                Margin="0,0,0,10" Padding="20,5" FontWeight="Bold" Grid.Column="1"/>
+                Margin="0,0,0,10" Padding="20,5" FontWeight="Bold" Grid.Column="1" Click="ApplyButton_Click"/>
     </Grid>
 </Window>

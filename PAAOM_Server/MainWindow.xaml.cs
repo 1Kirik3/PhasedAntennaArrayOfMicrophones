@@ -1,4 +1,6 @@
-﻿using PAAOM_Server.Models;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using PAAOM_Server.Models;
 using PAAOM_Server.ViewModels;
 using System.Windows;
 using System.Windows.Media.Media3D;
@@ -13,6 +15,7 @@ namespace PAAOM_Server
 		private EnvironmentSettings _environmentSettings;
 		private AudioSource _audioSource;
 		private MicrophoneArray _array;
+		private SignalGenerator _signalGenerator;
 
 		private EnvironmentSettingsViewModel _environmentSettingsViewModel;
 		private AudioSourceViewModel _audioSourceViewModel;
@@ -81,7 +84,62 @@ namespace PAAOM_Server
 				Radius = 0.5f,
 				ArrayCenter = new Point3D(0, 0, 0)
 			};
+
+			_signalGenerator = new SignalGenerator();
 		}
 
+		private void UpdateButton_Click(object sender, RoutedEventArgs e)
+		{
+			UpdateGraphs();
+			MessageBox.Show("Графики успешно обновлены!", "Обновление",
+						  MessageBoxButton.OK, MessageBoxImage.Information);
+		}
+
+		private void UpdateGraphs()
+		{
+			try
+			{
+				int microphoneCount = _array.MicrophonesCount;
+				var signals = _signalGenerator.GenerateSignals(_array, _audioSource, _environmentSettings);
+				MicrophonesContainer.Items.Clear();
+
+				if (signals.Count != microphoneCount)
+				{
+					MessageBox.Show($"Ошибка: получено {signals.Count} сигналов, но микрофонов {microphoneCount}",
+								  "Несоответствие данных",
+								  MessageBoxButton.OK, MessageBoxImage.Warning);
+					return;
+				}
+
+				for (int i = 0; i < microphoneCount; i++)
+				{
+					MicrophonesContainer.Items.Add(new MicrophoneGraphViewModel
+					{
+						Title = $"Микрофон {i + 1}",
+						Series = new SeriesCollection
+				{
+					new LineSeries
+					{
+						Values = new ChartValues<double>(signals[i]),
+						LineSmoothness = 0
+					}
+				}
+					});
+				}
+
+				MicrophonesContainer.UpdateLayout();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Ошибка обновления: {ex.Message}", "Ошибка",
+							  MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
+	}
+
+	public class MicrophoneGraphViewModel
+	{
+		public string Title { get; set; }
+		public SeriesCollection Series { get; set; }
 	}
 }

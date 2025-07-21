@@ -1,15 +1,16 @@
-﻿using System.Windows.Media.Media3D;
+﻿using System.ComponentModel;
+using System.Windows.Media.Media3D;
 
 namespace PAAOM_Server.Models
 {
-	public class MicrophoneArray
+	public class MicrophoneArray : INotifyPropertyChanged
 	{
-		public int MicrophonesCount { get; set; } = 8;
-		public float Radius { get; set; } = 0.5f;
+		private int _microphonesCount = 8; public float Radius { get; set; } = 0.5f;
 		public Point3D ArrayCenter { get; set; } = new Point3D(0, 0, 0);
 		public List<Microphone> Microphones { get; private set; } = new List<Microphone>();
 
 		public event EventHandler? GeometryUpdated;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		private EnvironmentSettings _environment;
 		private AudioSource _source;
@@ -32,7 +33,21 @@ namespace PAAOM_Server.Models
 			GeometryUpdated?.Invoke(this, EventArgs.Empty);
 		}
 
-		private void InitilizeMicrophones()
+		public int MicrophonesCount
+		{
+			get => _microphonesCount;
+			set
+			{
+				if (_microphonesCount != value)
+				{
+					_microphonesCount = value;
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MicrophonesCount)));
+					InitilizeMicrophones();
+				}
+			}
+		}
+
+		public void InitilizeMicrophones()
 		{
 			Microphones.Clear();
 
