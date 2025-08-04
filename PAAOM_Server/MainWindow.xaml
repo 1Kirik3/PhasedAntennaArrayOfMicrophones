@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:PAAOM_Server"
+        xmlns:properties ="clr-namespace:PAAOM_Server.Properties"
         mc:Ignorable="d"
         Title="MainWindow" Height="484" Width="582">
     <Window.Resources>
@@ -31,7 +32,7 @@
             <!-- Кнопка Обновить -->
             <Button x:Name="UpdateButton" 
                     Grid.Column="0"
-                    Content="Обновить графики" 
+                    Content="{x:Static properties:Resources.MainWindow_UpdateGraphs}" 
                     Padding="15,5"
                     FontWeight="Bold"
                     HorizontalAlignment="Left"
