@@ -61,11 +61,254 @@ namespace PAAOM_Server.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Решетка.
+        /// </summary>
+        public static string Array {
+            get {
+                return ResourceManager.GetString("Array", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Центр решетки.
+        /// </summary>
+        public static string Array_ArrayCenter {
+            get {
+                return ResourceManager.GetString("Array_ArrayCenter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на X (м):.
+        /// </summary>
+        public static string Array_ArrayCenterX {
+            get {
+                return ResourceManager.GetString("Array_ArrayCenterX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Y (м):.
+        /// </summary>
+        public static string Array_ArrayCenterY {
+            get {
+                return ResourceManager.GetString("Array_ArrayCenterY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Z(м):.
+        /// </summary>
+        public static string Array_ArrayCenterZ {
+            get {
+                return ResourceManager.GetString("Array_ArrayCenterZ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Параметры решетки.
+        /// </summary>
+        public static string Array_ArrayParametrs {
+            get {
+                return ResourceManager.GetString("Array_ArrayParametrs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Количество микрофонов.
+        /// </summary>
+        public static string Array_MicrophonesCount {
+            get {
+                return ResourceManager.GetString("Array_MicrophonesCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Радиус (м).
+        /// </summary>
+        public static string Array_Radius {
+            get {
+                return ResourceManager.GetString("Array_Radius", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Применить.
+        /// </summary>
+        public static string Button_Apply {
+            get {
+                return ResourceManager.GetString("Button_Apply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Среда.
+        /// </summary>
+        public static string Environment {
+            get {
+                return ResourceManager.GetString("Environment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Параметры воздуха.
+        /// </summary>
+        public static string Environment_AirParametrs {
+            get {
+                return ResourceManager.GetString("Environment_AirParametrs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Температура воздуха (°C).
+        /// </summary>
+        public static string Environment_AirTemperature {
+            get {
+                return ResourceManager.GetString("Environment_AirTemperature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Уровень шума (0-1).
+        /// </summary>
+        public static string Environment_NoiseLevel {
+            get {
+                return ResourceManager.GetString("Environment_NoiseLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Скорость звука (м/с).
+        /// </summary>
+        public static string Environment_SoundSpeed {
+            get {
+                return ResourceManager.GetString("Environment_SoundSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Настройки.
+        /// </summary>
+        public static string MainWindow_Settings {
+            get {
+                return ResourceManager.GetString("MainWindow_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Обновить графики.
         /// </summary>
         public static string MainWindow_UpdateGraphs {
             get {
                 return ResourceManager.GetString("MainWindow_UpdateGraphs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Источник.
+        /// </summary>
+        public static string Source {
+            get {
+                return ResourceManager.GetString("Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Позиция источника.
+        /// </summary>
+        public static string Source_Pos {
+            get {
+                return ResourceManager.GetString("Source_Pos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на X (м):.
+        /// </summary>
+        public static string Source_PosX {
+            get {
+                return ResourceManager.GetString("Source_PosX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Y (м):.
+        /// </summary>
+        public static string Source_PosY {
+            get {
+                return ResourceManager.GetString("Source_PosY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Z (м):.
+        /// </summary>
+        public static string Source_PosZ {
+            get {
+                return ResourceManager.GetString("Source_PosZ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Амплитуда.
+        /// </summary>
+        public static string Source_SignalAmplitude {
+            get {
+                return ResourceManager.GetString("Source_SignalAmplitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Частота (Гц).
+        /// </summary>
+        public static string Source_SignalFrequency {
+            get {
+                return ResourceManager.GetString("Source_SignalFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Параметры сигнала.
+        /// </summary>
+        public static string Source_SignalParametrs {
+            get {
+                return ResourceManager.GetString("Source_SignalParametrs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Фаза (рад).
+        /// </summary>
+        public static string Source_SignalPhase {
+            get {
+                return ResourceManager.GetString("Source_SignalPhase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Фаза (рад).
+        /// </summary>
+        public static string Source_SignalPhase1 {
+            get {
+                return ResourceManager.GetString("Source_SignalPhase1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Фазированная антенная решетка.
+        /// </summary>
+        public static string Window_Main {
+            get {
+                return ResourceManager.GetString("Window_Main", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Параметры системы.
+        /// </summary>
+        public static string Window_SystemParametrs {
+            get {
+                return ResourceManager.GetString("Window_SystemParametrs", resourceCulture);
             }
         }
     }

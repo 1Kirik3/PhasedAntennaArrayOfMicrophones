@@ -117,7 +117,88 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Environment_AirTemperature" xml:space="preserve">
+    <value>Температура воздуха (°C)</value>
+  </data>
+  <data name="Environment_AirParametrs" xml:space="preserve">
+    <value>Параметры воздуха</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>Среда</value>
+  </data>
+  <data name="Environment_SoundSpeed" xml:space="preserve">
+    <value>Скорость звука (м/с)</value>
+  </data>
+  <data name="Environment_NoiseLevel" xml:space="preserve">
+    <value>Уровень шума (0-1)</value>
+  </data>
+  <data name="MainWindow_Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
   <data name="MainWindow_UpdateGraphs" xml:space="preserve">
     <value>Обновить графики</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Источник</value>
+  </data>
+  <data name="Source_Pos" xml:space="preserve">
+    <value>Позиция источника</value>
+  </data>
+  <data name="Source_PosX" xml:space="preserve">
+    <value>X (м):</value>
+  </data>
+  <data name="Source_PosY" xml:space="preserve">
+    <value>Y (м):</value>
+  </data>
+  <data name="Source_PosZ" xml:space="preserve">
+    <value>Z (м):</value>
+  </data>
+  <data name="Source_SignalParametrs" xml:space="preserve">
+    <value>Параметры сигнала</value>
+  </data>
+  <data name="Source_SignalPhase" xml:space="preserve">
+    <value>Фаза (рад)</value>
+  </data>
+  <data name="Source_SignalPhase1" xml:space="preserve">
+    <value>Фаза (рад)</value>
+  </data>
+  <data name="Source_SignalAmplitude" xml:space="preserve">
+    <value>Амплитуда</value>
+  </data>
+  <data name="Source_SignalFrequency" xml:space="preserve">
+    <value>Частота (Гц)</value>
+  </data>
+  <data name="Array" xml:space="preserve">
+    <value>Решетка</value>
+  </data>
+  <data name="Array_ArrayCenter" xml:space="preserve">
+    <value>Центр решетки</value>
+  </data>
+  <data name="Array_ArrayCenterX" xml:space="preserve">
+    <value>X (м):</value>
+  </data>
+  <data name="Array_ArrayCenterY" xml:space="preserve">
+    <value>Y (м):</value>
+  </data>
+  <data name="Array_ArrayCenterZ" xml:space="preserve">
+    <value>Z(м):</value>
+  </data>
+  <data name="Array_ArrayParametrs" xml:space="preserve">
+    <value>Параметры решетки</value>
+  </data>
+  <data name="Array_Radius" xml:space="preserve">
+    <value>Радиус (м)</value>
+  </data>
+  <data name="Array_MicrophonesCount" xml:space="preserve">
+    <value>Количество микрофонов</value>
+  </data>
+  <data name="Button_Apply" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="Window_SystemParametrs" xml:space="preserve">
+    <value>Параметры системы</value>
+  </data>
+  <data name="Window_Main" xml:space="preserve">
+    <value>Фазированная антенная решетка</value>
   </data>
 </root>

@@ -64,5 +64,4 @@ NuGet.exe
 # Файлы сборки и бинарные файлы
 bin/
 obj/
-/.vs
-/.vs
+/.vs/PhasedAntennaArrayProject

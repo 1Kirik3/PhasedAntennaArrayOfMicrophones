@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:PAAOM_Server"
         xmlns:properties ="clr-namespace:PAAOM_Server.Properties"
         mc:Ignorable="d"
-        Title="MainWindow" Height="484" Width="582">
+        Title="{x:Static properties:Resources.Window_Main}" Height="484" Width="582">
     <Window.Resources>
         <Style TargetType="TextBlock" x:Key="HeaderStyle">
             <Setter Property="FontWeight" Value="Bold"/>
@@ -40,7 +40,7 @@
 
             <!-- Кнопка Настройки -->
             <Button Grid.Column="1"
-                    Content="Настройки" 
+                    Content="{x:Static properties:Resources.MainWindow_Settings}" 
                     Width="100"
                     Height="30"
                     HorizontalAlignment="Right"
