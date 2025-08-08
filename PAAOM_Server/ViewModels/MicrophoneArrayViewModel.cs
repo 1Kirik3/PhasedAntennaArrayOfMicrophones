@@ -6,27 +6,46 @@ using System.Windows.Media.Media3D;
 
 namespace PAAOM_Server.ViewModels
 {
-	public class MicrophoneArrayViewModel: INotifyPropertyChanged
+	public class MicrophoneArrayViewModel : INotifyPropertyChanged
 	{
 		private readonly MicrophoneArray _array;
 
 		public event PropertyChangedEventHandler? PropertyChanged;
-		public int MicrophonesCount => _array.Microphones.Count;
 
 		public MicrophoneArrayViewModel(MicrophoneArray array)
 		{
 			_array = array ?? throw new ArgumentNullException(nameof(array));
+
+			_array.MicrophonesCountChanged += OnMicrophonesCountChanged;
+			_array.RadiusChanged += OnRadiusChanged;
+			_array.ArrayCenterChanged += OnArrayCenterChanged;
 			_array.GeometryUpdated += OnGeometryUpdated;
 		}
 
 		~MicrophoneArrayViewModel()
 		{
+			_array.MicrophonesCountChanged -= OnMicrophonesCountChanged;
+			_array.RadiusChanged -= OnRadiusChanged;
+			_array.ArrayCenterChanged -= OnArrayCenterChanged;
 			_array.GeometryUpdated -= OnGeometryUpdated;
 		}
 
-		public void UpdateGeometry()
+		private void OnMicrophonesCountChanged(int count)
 		{
-			_array.UpdateGeometry();
+			OnPropertyChanged(nameof(MicrophoneCount));
+			OnPropertyChanged(nameof(MicrophonesCount));
+		}
+
+		private void OnRadiusChanged(float radius)
+		{
+			OnPropertyChanged(nameof(Radius));
+		}
+
+		private void OnArrayCenterChanged(Point3D center)
+		{
+			OnPropertyChanged(nameof(CenterX));
+			OnPropertyChanged(nameof(CenterY));
+			OnPropertyChanged(nameof(CenterZ));
 		}
 
 		private void OnGeometryUpdated(object? sender, EventArgs e)
@@ -94,18 +113,21 @@ namespace PAAOM_Server.ViewModels
 				if (_array.MicrophonesCount != value)
 				{
 					_array.MicrophonesCount = value;
-					_array.InitilizeMicrophones();
 					OnPropertyChanged();
 				}
 			}
 		}
 
+		public int MicrophonesCount => _array.Microphones.Count;
+
+		public void UpdateGeometry()
+		{
+			_array.UpdateGeometry();
+		}
 
 		protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
-
-
 	}
 }

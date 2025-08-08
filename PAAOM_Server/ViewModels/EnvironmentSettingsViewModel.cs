@@ -15,12 +15,26 @@ namespace PAAOM_Server.ViewModels
 		public EnvironmentSettingsViewModel(EnvironmentSettings settings)
 		{
 			_settings = settings ?? throw new ArgumentNullException(nameof(settings));
-			_settings.PropertyChanged += OnSettingsPropertyChanged;
+
+			_settings.TemperatureChanged += OnTemperatureChanged;
+			_settings.NoiseLevelChanged += OnNoiseLevelChanged;
 		}
 
-		private void OnSettingsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+		~EnvironmentSettingsViewModel()
 		{
-			OnPropertyChanged(e.PropertyName);
+			_settings.TemperatureChanged -= OnTemperatureChanged;
+			_settings.NoiseLevelChanged -= OnNoiseLevelChanged;
+		}
+
+		private void OnTemperatureChanged(float newValue)
+		{
+			OnPropertyChanged(nameof(Temperature));
+			OnPropertyChanged(nameof(SoundSpeed));
+		}
+
+		private void OnNoiseLevelChanged(float newValue)
+		{
+			OnPropertyChanged(nameof(NoiseLevel));
 		}
 
 		public float Temperature
@@ -31,7 +45,6 @@ namespace PAAOM_Server.ViewModels
 				var oldValue = _settings.TemperatureCelsius;
 				_settings.TemperatureCelsius = value;
 				ChangeLogger.LogChange(nameof(Temperature), oldValue, value);
-				OnPropertyChanged();
 			}
 		}
 
@@ -43,7 +56,6 @@ namespace PAAOM_Server.ViewModels
 				var oldValue = _settings.NoiseLevel;
 				_settings.NoiseLevel = value;
 				ChangeLogger.LogChange(nameof(NoiseLevel), oldValue, value);
-				OnPropertyChanged(); 
 			}
 		}
 

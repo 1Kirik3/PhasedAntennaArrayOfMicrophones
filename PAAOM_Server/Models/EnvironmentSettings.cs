@@ -4,12 +4,13 @@ using System.Runtime.CompilerServices;
 
 namespace PAAOM_Server.Models
 {
-	public class EnvironmentSettings : INotifyPropertyChanged
+	public class EnvironmentSettings
 	{
 		private float _temperatureCelsius = 20f;
 		private float _noiseLevel = 0.05f;
 
-		public event PropertyChangedEventHandler? PropertyChanged;
+		public event Action<float>? TemperatureChanged;
+		public event Action<float>? NoiseLevelChanged;
 
 		public EnvironmentSettings()
 		{
@@ -29,8 +30,7 @@ namespace PAAOM_Server.Models
 				if (_temperatureCelsius != value)
 				{
 					_temperatureCelsius = value;
-					OnPropertyChanged();
-					OnPropertyChanged(nameof(SoundSpeed));
+					TemperatureChanged?.Invoke(value);
 				}
 			}
 		}
@@ -45,16 +45,10 @@ namespace PAAOM_Server.Models
 				if (_noiseLevel != value)
 				{
 					_noiseLevel = value;
-					OnPropertyChanged();
+					NoiseLevelChanged?.Invoke(value);
 				}
 			}
 		}
-
-		protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-
 
 	}
 }

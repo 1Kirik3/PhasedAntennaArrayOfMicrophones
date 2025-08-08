@@ -1,20 +1,51 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Media.Media3D;
 
 namespace PAAOM_Server.Models
 {
-	public class MicrophoneArray : INotifyPropertyChanged
+	public class MicrophoneArray
 	{
-		private int _microphonesCount = 8; public float Radius { get; set; } = 0.5f;
-		public Point3D ArrayCenter { get; set; } = new Point3D(0, 0, 0);
-		public List<Microphone> Microphones { get; private set; } = new List<Microphone>();
+		private int _microphonesCount = 8;
+		private float _radius = 0.5f;
+		private Point3D _arrayCenter = new Point3D(0, 0, 0);
 
+		public event Action<int>? MicrophonesCountChanged;
+		public event Action<float>? RadiusChanged;
+		public event Action<Point3D>? ArrayCenterChanged;
 		public event EventHandler? GeometryUpdated;
-		public event PropertyChangedEventHandler? PropertyChanged;
 
-		private EnvironmentSettings _environment;
-		private AudioSource _source;
+		public List<Microphone> Microphones { get; } = new List<Microphone>();
+		public float Radius
+		{
+			get => _radius;
+			set
+			{
+				if (_radius != value)
+				{
+					_radius = value;
+					RadiusChanged?.Invoke(value);
+					InitilizeMicrophones();
+				}
+			}
+		}
 
+		public Point3D ArrayCenter
+		{
+			get => _arrayCenter;
+			set
+			{
+				if (_arrayCenter != value)
+				{
+					_arrayCenter = value;
+					ArrayCenterChanged?.Invoke(value);
+					InitilizeMicrophones();
+				}
+			}
+		}
+
+		private readonly EnvironmentSettings _environment;
+		private readonly AudioSource _source;
 
 		public MicrophoneArray(EnvironmentSettings environmentSettings, AudioSource audioSource)
 		{
@@ -29,7 +60,6 @@ namespace PAAOM_Server.Models
 			{
 				mic.UpdateSourceParameters(_source.Position, _environment.SoundSpeed);
 			}
-
 			GeometryUpdated?.Invoke(this, EventArgs.Empty);
 		}
 
@@ -41,7 +71,7 @@ namespace PAAOM_Server.Models
 				if (_microphonesCount != value)
 				{
 					_microphonesCount = value;
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MicrophonesCount)));
+					MicrophonesCountChanged?.Invoke(value);
 					InitilizeMicrophones();
 				}
 			}
@@ -64,6 +94,5 @@ namespace PAAOM_Server.Models
 
 			UpdateGeometry();
 		}
-
 	}
 }
