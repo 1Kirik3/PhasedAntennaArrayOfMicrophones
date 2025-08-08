@@ -52,7 +52,12 @@ namespace PAAOM_Server.ViewModels
 		{
 			get => _settings.NoiseLevel;
 			set
-			{ 
+			{
+				if (value < 0f || value > 1f)
+				{
+					throw new ArgumentOutOfRangeException(nameof(value), "Noise level must be between 0 and 1.");
+				}
+
 				var oldValue = _settings.NoiseLevel;
 				_settings.NoiseLevel = value;
 				ChangeLogger.LogChange(nameof(NoiseLevel), oldValue, value);

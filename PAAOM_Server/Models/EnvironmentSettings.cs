@@ -42,6 +42,11 @@ namespace PAAOM_Server.Models
 			get => _noiseLevel;
 			set
 			{
+				if (value < 0f || value > 1f)
+				{
+					throw new ArgumentOutOfRangeException(nameof(value), "Noise level must be between 0 and 1.");
+				}
+
 				if (_noiseLevel != value)
 				{
 					_noiseLevel = value;

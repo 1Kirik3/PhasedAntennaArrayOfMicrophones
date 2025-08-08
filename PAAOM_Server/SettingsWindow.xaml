@@ -36,11 +36,13 @@
                             <TextBox Text="{Binding EnvironmentSettings.Temperature, UpdateSourceTrigger=PropertyChanged}"/>
 
                             <Label Content="{x:Static properties:Resources.Environment_NoiseLevel}"/>
-                            <TextBox Text="{Binding EnvironmentSettings.NoiseLevel, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Text="{Binding EnvironmentSettings.NoiseLevel, UpdateSourceTrigger=LostFocus}"
+                                PreviewTextInput="NoiseLevelTextBox_PreviewTextInput"
+                                TextChanged="NoiseLevelTextBox_TextChanged"/>
 
                             <Label Content="{x:Static properties:Resources.Environment_SoundSpeed}"/>
                             <TextBlock Text="{Binding EnvironmentSettings.SoundSpeed, StringFormat={}{0:F2}}"
-                                      Margin="0,5" FontStyle="Italic"/>
+                                Margin="0,5" FontStyle="Italic"/>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
@@ -84,7 +86,7 @@
                             <TextBox Text="{Binding AudioSource.Amplitude, UpdateSourceTrigger=PropertyChanged}"/>
 
                             <Label Content="{x:Static properties:Resources.Source_SignalPhase}"/>
-                            <TextBox Text="{Binding AudioSource.Phase, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumericTextBox_PreviewTextInput"/>
+                            <TextBox Text="{Binding AudioSource.Phase, UpdateSourceTrigger=PropertyChanged}" />
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
