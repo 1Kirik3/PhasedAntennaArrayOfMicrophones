@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:PAAOM_Server"
-        xmlns:properties ="clr-namespace:PAAOM_Server.Properties"
+        xmlns:properties="clr-namespace:PAAOM_Server.Properties"
         mc:Ignorable="d"
         Title="{x:Static properties:Resources.Window_Main}" Height="484" Width="582">
     <Window.Resources>
@@ -59,9 +59,26 @@
                     <DataTemplate>
                         <Border BorderBrush="Gray" BorderThickness="1" Margin="5">
                             <StackPanel>
-                                <TextBlock Text="{Binding Title}" 
-                                           HorizontalAlignment="Center"
-                                           FontWeight="Bold"/>
+                                <!-- Заголовок и кнопка спектра в одной строке -->
+                                <Grid Margin="0,0,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{Binding Title}" 
+                                               Grid.Column="0"
+                                               Style="{StaticResource HeaderStyle}"/>
+
+                                    <Button Content="Спектр" 
+                                            Grid.Column="1"
+                                            Command="{Binding ShowSpectrumCommand}"
+                                            Margin="5,0"
+                                            Padding="10,2"
+                                            MinWidth="60"/>
+                                </Grid>
+
+                                <!-- График сигнала -->
                                 <lvc:CartesianChart Series="{Binding Series}" 
                                                    Height="200"
                                                    DisableAnimations="True">

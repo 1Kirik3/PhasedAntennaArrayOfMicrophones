@@ -2,7 +2,10 @@
 using LiveCharts.Wpf;
 using PAAOM_Server.Models;
 using PAAOM_Server.ViewModels;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media.Media3D;
 
 namespace PAAOM_Server
@@ -113,18 +116,23 @@ namespace PAAOM_Server
 
 				for (int i = 0; i < microphoneCount; i++)
 				{
-					MicrophonesContainer.Items.Add(new MicrophoneGraphViewModel
+					var signalData = signals[i]; // Сохраняем данные сигнала
+
+					var viewModel = new MicrophoneGraphViewModel
 					{
 						Title = $"Микрофон {i + 1}",
 						Series = new SeriesCollection
 				{
 					new LineSeries
 					{
-						Values = new ChartValues<double>(signals[i]),
+						Values = new ChartValues<double>(signalData),
 						LineSmoothness = 0
 					}
-				}
-					});
+				},
+						SignalData = signalData // Передаем данные сигнала
+					};
+
+					MicrophonesContainer.Items.Add(viewModel);
 				}
 
 				MicrophonesContainer.UpdateLayout();
@@ -137,9 +145,50 @@ namespace PAAOM_Server
 		}
 	}
 
-	public class MicrophoneGraphViewModel
+	public class MicrophoneGraphViewModel : INotifyPropertyChanged
 	{
+		private double[] _signalData;
+
 		public string Title { get; set; }
 		public SeriesCollection Series { get; set; }
+		public ICommand ShowSpectrumCommand { get; }
+
+		public double[] SignalData
+		{
+			get => _signalData;
+			set
+			{
+				_signalData = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public MicrophoneGraphViewModel()
+		{
+			ShowSpectrumCommand = new RelayCommand(ShowSpectrum, CanShowSpectrum);
+		}
+
+		private void ShowSpectrum()
+		{
+			if (SignalData == null || SignalData.Length == 0) return;
+
+			var spectrumWindow = new SpectrumWindow(SignalData, Title, SignalGenerator.OutputSampleRate)
+			{
+				Owner = Application.Current.MainWindow
+			};
+			spectrumWindow.Show();
+		}
+
+		private bool CanShowSpectrum()
+		{
+			return SignalData != null && SignalData.Length > 0;
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
 	}
 }

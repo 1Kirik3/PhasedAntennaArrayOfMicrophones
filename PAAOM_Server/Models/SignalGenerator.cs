@@ -6,8 +6,9 @@ namespace PAAOM_Server.Models
 	{
 		private const float _righSampleRate = 10000f;
 		private const int _decimationFactor = 8;
-		private const float _outputSampleRate = _righSampleRate / _decimationFactor;
 		private const float _processingIntervalMs = 100f;
+
+		public const double OutputSampleRate = _righSampleRate / _decimationFactor; // 1250 Гц
 
 		public List<double[]> GenerateSignals(IMicrophoneArray array, IAudioSource source, IEnvironmentSettings env)
 		{
@@ -53,7 +54,6 @@ namespace PAAOM_Server.Models
 				}
 				output[i] = sum / factor;
 			}
-
 			return output;
 		}
 	}
