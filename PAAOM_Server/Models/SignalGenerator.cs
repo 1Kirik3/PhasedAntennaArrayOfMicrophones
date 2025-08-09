@@ -2,8 +2,8 @@
 
 namespace PAAOM_Server.Models
 {
-    public class SignalGenerator
-    {
+	public class SignalGenerator
+	{
 		private const float _righSampleRate = 10000f;
 		private const int _decimationFactor = 8;
 		private const float _outputSampleRate = _righSampleRate / _decimationFactor;
@@ -20,11 +20,13 @@ namespace PAAOM_Server.Models
 			foreach (var mic in array.Microphones)
 			{
 				double[] signal = new double[samplesCount];
-				double attenuatedAmplitude = source.Amplitude / mic.DistanceToSource;
+				float distance = ((MicrophoneArray)array).GetDistanceToSource((Microphone)mic);
+				float delay = ((MicrophoneArray)array).GetDelayToSource((Microphone)mic);
+				double attenuatedAmplitude = source.Amplitude / distance;
 
 				for (int i = 0; i < samplesCount; i++)
 				{
-					double t = time[i] - mic.DelayToSource;
+					double t = time[i] - delay;
 					signal[i] = attenuatedAmplitude * Math.Sin(2 * Math.PI * source.Frequency * t + source.Phase);
 
 					signal[i] += env.NoiseLevel * (new Random().NextDouble() - 0.5);
@@ -56,4 +58,3 @@ namespace PAAOM_Server.Models
 		}
 	}
 }
-

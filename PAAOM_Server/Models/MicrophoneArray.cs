@@ -79,10 +79,6 @@ namespace PAAOM_Server.Models
 
 		public void UpdateGeometry()
 		{
-			foreach (var mic in _microphones)
-			{
-				mic.UpdateSourceParameters(_source.Position, _environment.SoundSpeed);
-			}
 			GeometryUpdated?.Invoke(this, EventArgs.Empty);
 		}
 
@@ -96,12 +92,23 @@ namespace PAAOM_Server.Models
 				double x = _arrayCenter.X + _radius * Math.Cos(angle);
 				double y = _arrayCenter.Y + _radius * Math.Sin(angle);
 
-				var mic = new Microphone(new Point3D(x, y, _arrayCenter.Z));
-				mic.UpdateSourceParameters(_source.Position, _environment.SoundSpeed);
-				_microphones.Add(mic);
+				_microphones.Add(new Microphone(new Point3D(x, y, _arrayCenter.Z)));
 			}
 
 			UpdateGeometry();
+		}
+
+		public float GetDistanceToSource(Microphone microphone)
+		{
+			return (float)Math.Sqrt(
+				Math.Pow(_source.Position.X - microphone.Position.X, 2) +
+				Math.Pow(_source.Position.Y - microphone.Position.Y, 2) +
+				Math.Pow(_source.Position.Z - microphone.Position.Z, 2));
+		}
+
+		public float GetDelayToSource(Microphone microphone)
+		{
+			return GetDistanceToSource(microphone) / _environment.SoundSpeed;
 		}
 	}
 }

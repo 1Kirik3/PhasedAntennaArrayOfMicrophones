@@ -60,13 +60,12 @@ NuGet.exe
 # Папка .vs (кэш Visual Studio, пользовательские настройки)
 **/.vs/
 .vs/
+/.vs
 
 # Файлы сборки и бинарные файлы
 bin/
 obj/
 /.vs/PhasedAntennaArrayProject
-/.vs
-/.vs
 *.vsidx
 *.v2
 *.db
