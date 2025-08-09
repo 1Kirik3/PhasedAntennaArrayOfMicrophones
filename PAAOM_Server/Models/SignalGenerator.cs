@@ -1,4 +1,5 @@
-﻿
+﻿using PAAOM_Server.Models.Interfaces;
+
 namespace PAAOM_Server.Models
 {
     public class SignalGenerator
@@ -8,7 +9,7 @@ namespace PAAOM_Server.Models
 		private const float _outputSampleRate = _righSampleRate / _decimationFactor;
 		private const float _processingIntervalMs = 100f;
 
-		public List<double[]> GenerateSignals(MicrophoneArray array, AudioSource source, EnvironmentSettings env)
+		public List<double[]> GenerateSignals(IMicrophoneArray array, IAudioSource source, IEnvironmentSettings env)
 		{
 			var results = new List<double[]>();
 			int samplesCount = (int)(_righSampleRate * _processingIntervalMs / 1000);

@@ -1,4 +1,5 @@
 ﻿using PAAOM_Server.Models;
+using PAAOM_Server.Models.Interfaces;
 using PAAOM_Server.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -8,11 +9,11 @@ namespace PAAOM_Server.ViewModels
 {
 	public class AudioSourceViewModel : INotifyPropertyChanged
 	{
-		private readonly AudioSource _source;
+		private readonly IAudioSource _source;
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public AudioSourceViewModel(AudioSource source)
+		public AudioSourceViewModel(IAudioSource source)
 		{
 			_source = source ?? throw new ArgumentNullException(nameof(source));
 		}
@@ -20,12 +21,12 @@ namespace PAAOM_Server.ViewModels
 		public float X
 		{
 			get => (float)_source.Position.X;
-			set 
+			set
 			{
 				var oldValue = _source.Position.X;
 				_source.Position = new Point3D(value, _source.Position.Y, _source.Position.Z);
 				ChangeLogger.LogChange(nameof(X), oldValue, value);
-				OnPropertyChanged(); 
+				OnPropertyChanged();
 			}
 		}
 		public float Y

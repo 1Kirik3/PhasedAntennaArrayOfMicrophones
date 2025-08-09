@@ -1,18 +1,19 @@
-﻿using PAAOM_Server.Models;
+﻿// EnvironmentSettingsViewModel.cs
+using PAAOM_Server.Models;
+using PAAOM_Server.Models.Interfaces;
 using PAAOM_Server.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
 
 namespace PAAOM_Server.ViewModels
 {
 	public class EnvironmentSettingsViewModel : INotifyPropertyChanged
 	{
-		private readonly EnvironmentSettings _settings;
+		private readonly IEnvironmentSettings _settings;
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public EnvironmentSettingsViewModel(EnvironmentSettings settings)
+		public EnvironmentSettingsViewModel(IEnvironmentSettings settings)
 		{
 			_settings = settings ?? throw new ArgumentNullException(nameof(settings));
 

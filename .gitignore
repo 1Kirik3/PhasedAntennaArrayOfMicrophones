@@ -66,3 +66,7 @@ bin/
 obj/
 /.vs/PhasedAntennaArrayProject
 /.vs
+/.vs
+*.vsidx
+*.v2
+*.db

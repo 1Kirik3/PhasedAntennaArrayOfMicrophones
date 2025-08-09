@@ -1,13 +1,18 @@
-﻿using System.Windows.Media.Media3D;
+﻿using PAAOM_Server.Models.Interfaces;
+using System.Windows.Media.Media3D;
 
 namespace PAAOM_Server.Models
 {
-	public class AudioSource
+	public class AudioSource : IAudioSource
 	{
 		public Point3D Position { get; set; } = new Point3D(5, 5, 0);
 		public float Frequency { get; set; } = 500f;
 		public float Amplitude { get; set; } = 1.0f;
 		public float Phase { get; set; } = 1.0f;
+
+		double IAudioSource.Frequency { get => Frequency; set => Frequency = (float)value; }
+		double IAudioSource.Amplitude { get => Amplitude; set => Amplitude = (float)value; }
+		double IAudioSource.Phase { get => Phase; set => Phase = (float)value; }
 
 		public AudioSource()
 		{

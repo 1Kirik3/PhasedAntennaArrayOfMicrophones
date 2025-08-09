@@ -1,10 +1,9 @@
-﻿
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using PAAOM_Server.Models.Interfaces;
+using System;
 
 namespace PAAOM_Server.Models
 {
-	public class EnvironmentSettings
+	public class EnvironmentSettings : IEnvironmentSettings
 	{
 		private float _temperatureCelsius = 20f;
 		private float _noiseLevel = 0.05f;
@@ -54,6 +53,5 @@ namespace PAAOM_Server.Models
 				}
 			}
 		}
-
 	}
 }

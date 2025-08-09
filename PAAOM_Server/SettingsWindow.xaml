@@ -6,7 +6,7 @@
         xmlns:properties ="clr-namespace:PAAOM_Server.Properties"
         xmlns:local="clr-namespace:PAAOM_Server"
         Title="{x:Static properties:Resources.Window_SystemParametrs}"
-        Width="549" Height="457"
+        Width="549" Height="480"
         WindowStartupLocation="CenterOwner">
 
     <Window.Resources>

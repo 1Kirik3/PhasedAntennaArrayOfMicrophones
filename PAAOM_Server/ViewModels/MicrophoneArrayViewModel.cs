@@ -1,4 +1,4 @@
-﻿using PAAOM_Server.Models;
+﻿using PAAOM_Server.Models.Interfaces;
 using PAAOM_Server.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -8,11 +8,11 @@ namespace PAAOM_Server.ViewModels
 {
 	public class MicrophoneArrayViewModel : INotifyPropertyChanged
 	{
-		private readonly MicrophoneArray _array;
+		private readonly IMicrophoneArray _array;
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public MicrophoneArrayViewModel(MicrophoneArray array)
+		public MicrophoneArrayViewModel(IMicrophoneArray array)
 		{
 			_array = array ?? throw new ArgumentNullException(nameof(array));
 

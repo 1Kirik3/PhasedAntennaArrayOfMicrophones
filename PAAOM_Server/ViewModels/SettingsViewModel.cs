@@ -1,4 +1,6 @@
-﻿using PAAOM_Server.Models;
+﻿// SettingsViewModel.cs
+using PAAOM_Server.Models;
+using PAAOM_Server.Models.Interfaces;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -14,9 +16,9 @@ namespace PAAOM_Server.ViewModels
 		public ICommand ApplySettingsCommand { get; }
 
 		public SettingsViewModel(
-			EnvironmentSettings envSettings,
-			AudioSource audioSource,
-			MicrophoneArray microphoneArray)
+			IEnvironmentSettings envSettings,
+			IAudioSource audioSource,
+			IMicrophoneArray microphoneArray)
 		{
 			EnvironmentSettings = new EnvironmentSettingsViewModel(envSettings);
 			AudioSource = new AudioSourceViewModel(audioSource);

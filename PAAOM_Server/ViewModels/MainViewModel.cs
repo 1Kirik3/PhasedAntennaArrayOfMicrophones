@@ -1,4 +1,6 @@
-﻿using PAAOM_Server.Models;
+﻿// MainViewModel.cs
+using PAAOM_Server.Models;
+using PAAOM_Server.Models.Interfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,17 +11,16 @@ using System.Windows.Input;
 
 namespace PAAOM_Server.ViewModels
 {
-	public class MainViewModel: INotifyPropertyChanged
+	public class MainViewModel : INotifyPropertyChanged
 	{
 		public EnvironmentSettingsViewModel EnvironmentSettingsVM { get; }
 		public AudioSourceViewModel AudioSourceVM { get; }
 		public MicrophoneArrayViewModel MicrophoneArrayVM { get; }
 
 		private readonly SignalGenerator _signalGenerator;
-		private readonly MicrophoneArray _array;
-		private readonly AudioSource _source;
-		private readonly EnvironmentSettings _environment;
-
+		private readonly IMicrophoneArray _array;
+		private readonly IAudioSource _source;
+		private readonly IEnvironmentSettings _environment;
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -30,11 +31,10 @@ namespace PAAOM_Server.ViewModels
 
 		private ObservableCollection<MicrophoneSignalViewModel> _microphoneSignals { get; }
 
-
 		public MainViewModel(
-			EnvironmentSettings envSettings,
-			AudioSource audioSource,
-			MicrophoneArray microphoneArray)
+			IEnvironmentSettings envSettings,
+			IAudioSource audioSource,
+			IMicrophoneArray microphoneArray)
 		{
 			if (envSettings == null) throw new ArgumentNullException(nameof(envSettings));
 			if (audioSource == null) throw new ArgumentNullException(nameof(audioSource));
