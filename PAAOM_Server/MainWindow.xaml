@@ -80,10 +80,21 @@
 
                                 <!-- График сигнала -->
                                 <lvc:CartesianChart Series="{Binding Series}" 
-                                                   Height="200"
-                                                   DisableAnimations="True">
+                                    Height="200"
+                                    DisableAnimations="True">
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis Title="Время, с" 
+                                            LabelFormatter="{Binding XAxisFormatter}">
+                                            <lvc:Axis.Separator>
+                                                <lvc:Separator Step="5"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
                                     <lvc:CartesianChart.AxisY>
-                                        <lvc:Axis MinValue="-1" MaxValue="1"/>
+                                        <lvc:Axis Title="Амплитуда" 
+                                            MinValue="{Binding MinAmplitude}" 
+                                            MaxValue="{Binding MaxAmplitude}"
+                                            LabelFormatter="{Binding YAxisFormatter}"/>
                                     </lvc:CartesianChart.AxisY>
                                 </lvc:CartesianChart>
                             </StackPanel>

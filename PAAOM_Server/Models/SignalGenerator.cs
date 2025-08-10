@@ -1,5 +1,6 @@
 ﻿using PAAOM_Server.Models.Interfaces;
 
+	
 namespace PAAOM_Server.Models
 {
 	public class SignalGenerator
@@ -8,7 +9,7 @@ namespace PAAOM_Server.Models
 		private const int _decimationFactor = 8;
 		private const float _processingIntervalMs = 100f;
 
-		public const double OutputSampleRate = _righSampleRate / _decimationFactor; // 1250 Гц
+		public const double OutputSampleRate = _righSampleRate / _decimationFactor; // 1250 Hz
 
 		public List<double[]> GenerateSignals(IMicrophoneArray array, IAudioSource source, IEnvironmentSettings env)
 		{
@@ -42,19 +43,34 @@ namespace PAAOM_Server.Models
 
 		private double[] DecimateSignal(double[] input, int factor)
 		{
-			int outputLength = input.Length / factor;
-			double[] output = new double[outputLength];
+			//double cutoff = (_righSampleRate / factor) / 2 * 0.8; // Частота среза с запасом 20%
+			//var filtered = ApplyLowPassFilter(input, _righSampleRate, cutoff);
 
-			for (int i = 0; i < outputLength; i++)
+			// Простая децимация
+			double[] output = new double[input.Length / factor];
+			for (int i = 0; i < output.Length; i++)
 			{
-				double sum = 0;
-				for (int j = 0; j < factor; j++)
-				{
-					sum += input[i * factor + j];
-				}
-				output[i] = sum / factor;
+				output[i] = input[i * factor];
 			}
 			return output;
 		}
+
+		private double[] ApplyLowPassFilter(double[] input, double sampleRate, double cutoffFreq)
+		{
+			double rc = 1.0 / (2 * Math.PI * cutoffFreq);
+			double dt = 1.0 / sampleRate;
+			double alpha = dt / (rc + dt);
+
+			double[] output = new double[input.Length];
+			output[0] = input[0];
+
+			for (int i = 1; i < input.Length; i++)
+			{
+				output[i] = output[i - 1] + alpha * (input[i] - output[i - 1]);
+			}
+
+			return output;
+		}
+
 	}
 }

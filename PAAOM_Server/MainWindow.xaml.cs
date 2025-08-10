@@ -10,9 +10,6 @@ using System.Windows.Media.Media3D;
 
 namespace PAAOM_Server
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
 	public partial class MainWindow : Window
 	{
 		private EnvironmentSettings _environmentSettings;
@@ -28,8 +25,8 @@ namespace PAAOM_Server
 		public MainWindow()
 		{
 			InitializeComponent();
-			InitilizeModels();
-			InitilizeViewModels();
+			InitializeModels();
+			InitializeViewModels();
 		}
 
 		private void SettingsButton_Click(object sender, RoutedEventArgs e)
@@ -56,18 +53,13 @@ namespace PAAOM_Server
 			}
 		}
 
-		private void InitilizeViewModels()
+		private void InitializeViewModels()
 		{
-			var envViewModel = new EnvironmentSettingsViewModel(_environmentSettings);
-			var audioSourceViewModel = new AudioSourceViewModel(_audioSource);
-			var array = new MicrophoneArrayViewModel(_array);
-
 			_mainViewModel = new MainViewModel(_environmentSettings, _audioSource, _array);
-
 			this.DataContext = _mainViewModel;
 		}
 
-		private void InitilizeModels()
+		private void InitializeModels()
 		{
 			_environmentSettings = new EnvironmentSettings
 			{
@@ -106,36 +98,29 @@ namespace PAAOM_Server
 				var signals = _signalGenerator.GenerateSignals(_array, _audioSource, _environmentSettings);
 				MicrophonesContainer.Items.Clear();
 
-				if (signals.Count != microphoneCount)
-				{
-					MessageBox.Show($"Ошибка: получено {signals.Count} сигналов, но микрофонов {microphoneCount}",
-								  "Несоответствие данных",
-								  MessageBoxButton.OK, MessageBoxImage.Warning);
-					return;
-				}
+				if (signals.Count != microphoneCount) return;
 
 				for (int i = 0; i < microphoneCount; i++)
 				{
-					var signalData = signals[i]; // Сохраняем данные сигнала
+					var signalData = signals[i];
 
-					var viewModel = new MicrophoneGraphViewModel
+					var viewModel = new MicrophoneGraphViewModel(_audioSource.Frequency)
 					{
 						Title = $"Микрофон {i + 1}",
+						SignalData = signalData, // Устанавливаем данные сначала
 						Series = new SeriesCollection
 				{
 					new LineSeries
 					{
 						Values = new ChartValues<double>(signalData),
-						LineSmoothness = 0
-					}
-				},
-						SignalData = signalData // Передаем данные сигнала
+						LineSmoothness = 0,
+						PointGeometry = null // Убираем точки для лучшей читаемости
+                    }
+				}
 					};
 
 					MicrophonesContainer.Items.Add(viewModel);
 				}
-
-				MicrophonesContainer.UpdateLayout();
 			}
 			catch (Exception ex)
 			{
@@ -148,10 +133,41 @@ namespace PAAOM_Server
 	public class MicrophoneGraphViewModel : INotifyPropertyChanged
 	{
 		private double[] _signalData;
+		private readonly double _signalFrequency;
+		private double _minAmplitude;
+		private double _maxAmplitude;
+
+
+		public double TimeStep { get; } = 5.0;
+
+		public Func<double, string> XAxisFormatter => value =>
+			(value % TimeStep == 0) ? $"{value:F0}" : string.Empty;
+
+		public Func<double, string> YAxisFormatter { get; } = value => $"{value:F2}";
 
 		public string Title { get; set; }
 		public SeriesCollection Series { get; set; }
 		public ICommand ShowSpectrumCommand { get; }
+
+		public double MinAmplitude
+		{
+			get => _minAmplitude;
+			set
+			{
+				_minAmplitude = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public double MaxAmplitude
+		{
+			get => _maxAmplitude;
+			set
+			{
+				_maxAmplitude = value;
+				OnPropertyChanged();
+			}
+		}
 
 		public double[] SignalData
 		{
@@ -159,20 +175,44 @@ namespace PAAOM_Server
 			set
 			{
 				_signalData = value;
+				CalculateAmplitudeRange();
 				OnPropertyChanged();
 			}
 		}
 
-		public MicrophoneGraphViewModel()
+		public MicrophoneGraphViewModel(double signalFrequency)
 		{
+			_signalFrequency = signalFrequency;
 			ShowSpectrumCommand = new RelayCommand(ShowSpectrum, CanShowSpectrum);
+		}
+
+		private void CalculateAmplitudeRange()
+		{
+			if (SignalData == null || SignalData.Length == 0)
+			{
+				MinAmplitude = -1;
+				MaxAmplitude = 1;
+				return;
+			}
+
+			double max = SignalData.Max();
+			double min = SignalData.Min();
+
+			double margin = Math.Max(Math.Abs(max), Math.Abs(min)) * 0.1;
+			MaxAmplitude = max + margin;
+			MinAmplitude = min - margin;
 		}
 
 		private void ShowSpectrum()
 		{
 			if (SignalData == null || SignalData.Length == 0) return;
 
-			var spectrumWindow = new SpectrumWindow(SignalData, Title, SignalGenerator.OutputSampleRate)
+			// Передаем частоту сигнала в конструктор SpectrumWindow
+			var spectrumWindow = new SpectrumWindow(
+				SignalData,
+				Title,
+				SignalGenerator.OutputSampleRate,
+				_signalFrequency)
 			{
 				Owner = Application.Current.MainWindow
 			};

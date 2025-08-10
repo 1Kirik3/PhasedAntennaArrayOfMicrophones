@@ -14,14 +14,18 @@ namespace PAAOM_Server
 		public ChartValues<double> SpectrumValues { get; set; }
 		public List<string> FrequencyLabels { get; set; }
 		public double MaxAmplitude { get; private set; }
+		private double _sampleRate;
+		private double _inputSignalFrequency; // Частота исходного сигнала
 
 		public Func<double, string> XAxisFormatter { get; set; }
 		public Func<double, string> YAxisFormatter { get; set; }
 
-		public SpectrumWindow(double[] signal, string microphoneName, double sampleRate)
+		public SpectrumWindow(double[] signal, string microphoneName, double sampleRate, double inputFrequency)
 		{
 			InitializeComponent();
 			Title = $"Спектр - {microphoneName}";
+			_sampleRate = sampleRate;
+			_inputSignalFrequency = inputFrequency; // Сохраняем частоту сигнала
 
 			var calculator = new SpectrumCalculator();
 			var (frequencies, magnitudes) = calculator.CalculateSpectrum(signal, sampleRate);
@@ -31,7 +35,6 @@ namespace PAAOM_Server
 			MaxAmplitude = magnitudes.DefaultIfEmpty(0).Max() * 1.1;
 
 			DataContext = this;
-
 			ConfigureChart();
 			this.Closing += (s, e) => this.Owner?.Activate();
 		}
@@ -43,7 +46,7 @@ namespace PAAOM_Server
 			double[] freqValues = FrequencyLabels.Select(f => double.Parse(f)).ToArray();
 			double peakFreq = FindPeakFrequency(freqValues, SpectrumValues.ToArray());
 
-			double margin = peakFreq * 0.1; 
+			double margin = peakFreq * 0.1;
 			double minFreq = Math.Max(0, peakFreq - margin);
 			double maxFreq = peakFreq + margin;
 
@@ -53,6 +56,8 @@ namespace PAAOM_Server
 				maxFreq = absoluteMaxFreq;
 				minFreq = Math.Max(0, maxFreq - 2 * margin);
 			}
+
+			UpdatePeakInfo(peakFreq);
 
 			SpectrumChart.AxisX.Clear();
 			SpectrumChart.AxisX.Add(new Axis
@@ -76,6 +81,23 @@ namespace PAAOM_Server
 			});
 		}
 
+		private void UpdatePeakInfo(double displayedPeakFreq)
+		{
+			// Всегда показываем реальную частоту, если она известна
+			string infoText = $"Пик: {displayedPeakFreq:F0} Гц";
+
+			if (_inputSignalFrequency > _sampleRate / 2)
+			{
+				infoText += $" (реальная частота: {_inputSignalFrequency:F0} Гц) [эффект наложения]";
+			}
+			else if (Math.Abs(_inputSignalFrequency - displayedPeakFreq) > 1)
+			{
+				infoText += $" (реальная частота: {_inputSignalFrequency:F0} Гц)";
+			}
+
+			TbPeakInfo.Text = infoText;
+		}
+
 		private double FindPeakFrequency(double[] frequencies, double[] magnitudes)
 		{
 			int peakIndex = 0;
@@ -96,7 +118,7 @@ namespace PAAOM_Server
 		protected override void OnClosing(CancelEventArgs e)
 		{
 			base.OnClosing(e);
-			Owner?.Activate(); 
+			Owner?.Activate();
 		}
 
 		private void AutoScale_Click(object sender, RoutedEventArgs e)
@@ -111,7 +133,7 @@ namespace PAAOM_Server
 		{
 			int n = signal.Length;
 
-			//Window function
+			// Window function
 			double[] window = MathNet.Numerics.Window.Hann(n);
 			double windowGain = window.Sum() / n;
 			Complex[] complexSignal = new Complex[n];
@@ -121,10 +143,10 @@ namespace PAAOM_Server
 				complexSignal[i] = new Complex(signal[i] * window[i] / windowGain, 0);
 			}
 
-			//FFT
+			// FFT
 			Fourier.Forward(complexSignal, FourierOptions.Default);
 
-			//Amplitude spectrum
+			// Amplitude spectrum
 			int spectrumLength = n / 2;
 			double[] frequencies = new double[spectrumLength];
 			double[] magnitudes = new double[spectrumLength];
@@ -132,6 +154,9 @@ namespace PAAOM_Server
 			for (int i = 0; i < spectrumLength; i++)
 			{
 				frequencies[i] = i * sampleRate / n;
+				if (frequencies[i] > sampleRate / 2)
+					frequencies[i] = sampleRate - frequencies[i];
+
 				magnitudes[i] = complexSignal[i].Magnitude * 2 / n;
 			}
 
