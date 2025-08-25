@@ -1,6 +1,6 @@
 ﻿using LiveCharts;
 using LiveCharts.Wpf;
-using PAAOM_Server.Models;
+using PAAOM_Common.Models;
 using PAAOM_Server.ViewModels;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;

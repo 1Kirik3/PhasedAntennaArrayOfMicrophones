@@ -1,5 +1,4 @@
-﻿using PAAOM_Server.Models;
-using PAAOM_Server.Models.Interfaces;
+﻿using PAAOM_Common.Models.Interfaces;
 using PAAOM_Server.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;

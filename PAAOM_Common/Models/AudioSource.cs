@@ -1,7 +1,7 @@
-﻿using PAAOM_Server.Models.Interfaces;
+﻿using PAAOM_Common.Models.Interfaces;
 using System.Windows.Media.Media3D;
 
-namespace PAAOM_Server.Models
+namespace PAAOM_Common.Models
 {
 	public class AudioSource : IAudioSource
 	{

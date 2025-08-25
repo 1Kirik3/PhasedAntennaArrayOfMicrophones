@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media.Media3D;
 
-namespace PAAOM_Server.Models.Interfaces
+namespace PAAOM_Common.Models.Interfaces
 {
 	public interface IAudioSource
 	{

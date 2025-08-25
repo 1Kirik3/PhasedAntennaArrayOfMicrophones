@@ -1,7 +1,5 @@
-﻿// MainViewModel.cs
-using PAAOM_Server.Models;
-using PAAOM_Server.Models.Interfaces;
-using System;
+﻿using PAAOM_Common.Models;
+using PAAOM_Common.Models.Interfaces;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;

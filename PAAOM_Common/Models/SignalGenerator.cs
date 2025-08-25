@@ -1,7 +1,9 @@
-﻿using PAAOM_Server.Models.Interfaces;
+﻿using PAAOM_Common.Models.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-	
-namespace PAAOM_Server.Models
+namespace PAAOM_Common.Models
 {
 	public class SignalGenerator
 	{

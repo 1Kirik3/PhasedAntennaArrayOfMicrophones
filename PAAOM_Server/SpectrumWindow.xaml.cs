@@ -3,7 +3,6 @@ using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using MathNet.Numerics.IntegralTransforms;
 using System.ComponentModel;
-using System.Linq;
 using System.Numerics;
 using System.Windows;
 

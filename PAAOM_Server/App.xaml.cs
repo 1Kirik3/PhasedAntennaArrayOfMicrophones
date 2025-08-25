@@ -1,4 +1,4 @@
-﻿using PAAOM_Server.Models;
+﻿using PAAOM_Common.Models;
 using System.Windows;
 
 namespace PAAOM_Server

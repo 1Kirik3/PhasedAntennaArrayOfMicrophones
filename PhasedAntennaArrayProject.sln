@@ -4,8 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.14.36121.58
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PAAOM_Server", "PAAOM_Server\PAAOM_Server.csproj", "{F58DD0CB-300D-459C-9441-A06283744DFE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4C9F8C7A-A3B6-4C6B-A4DD-9D3B1DF01C76} = {4C9F8C7A-A3B6-4C6B-A4DD-9D3B1DF01C76}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PAAOM_Client", "PAAOM_Client\PAAOM_Client.csproj", "{60E389E4-AA64-4930-95D8-8F0D1DD96FEC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4C9F8C7A-A3B6-4C6B-A4DD-9D3B1DF01C76} = {4C9F8C7A-A3B6-4C6B-A4DD-9D3B1DF01C76}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PAAOM_Common", "PAAOM_Common\PAAOM_Common.csproj", "{4C9F8C7A-A3B6-4C6B-A4DD-9D3B1DF01C76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +29,10 @@ Global
 		{60E389E4-AA64-4930-95D8-8F0D1DD96FEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60E389E4-AA64-4930-95D8-8F0D1DD96FEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60E389E4-AA64-4930-95D8-8F0D1DD96FEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C9F8C7A-A3B6-4C6B-A4DD-9D3B1DF01C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C9F8C7A-A3B6-4C6B-A4DD-9D3B1DF01C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C9F8C7A-A3B6-4C6B-A4DD-9D3B1DF01C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C9F8C7A-A3B6-4C6B-A4DD-9D3B1DF01C76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

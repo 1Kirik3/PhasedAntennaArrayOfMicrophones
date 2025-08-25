@@ -1,15 +1,15 @@
-﻿using PAAOM_Server.Models.Interfaces;
+﻿using PAAOM_Common.Models.Interfaces;
 using System;
 
-namespace PAAOM_Server.Models
+namespace PAAOM_Common.Models
 {
 	public class EnvironmentSettings : IEnvironmentSettings
 	{
 		private float _temperatureCelsius = 20f;
 		private float _noiseLevel = 0.05f;
 
-		public event Action<float>? TemperatureChanged;
-		public event Action<float>? NoiseLevelChanged;
+		public event Action<float> TemperatureChanged;
+		public event Action<float> NoiseLevelChanged;
 
 		public EnvironmentSettings()
 		{

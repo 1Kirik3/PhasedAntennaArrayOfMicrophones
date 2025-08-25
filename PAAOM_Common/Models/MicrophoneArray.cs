@@ -1,9 +1,9 @@
-﻿using PAAOM_Server.Models.Interfaces;
+﻿using PAAOM_Common.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Windows.Media.Media3D;
 
-namespace PAAOM_Server.Models
+namespace PAAOM_Common.Models
 {
 	public class MicrophoneArray : IMicrophoneArray
 	{
@@ -12,10 +12,10 @@ namespace PAAOM_Server.Models
 		private Point3D _arrayCenter = new Point3D(0, 0, 0);
 		private readonly List<Microphone> _microphones = new List<Microphone>();
 
-		public event Action<int>? MicrophonesCountChanged;
-		public event Action<float>? RadiusChanged;
-		public event Action<Point3D>? ArrayCenterChanged;
-		public event EventHandler? GeometryUpdated;
+		public event Action<int> MicrophonesCountChanged;
+		public event Action<float> RadiusChanged;
+		public event Action<Point3D> ArrayCenterChanged;
+		public event EventHandler GeometryUpdated;
 
 		private readonly IEnvironmentSettings _environment;
 		private readonly IAudioSource _source;
