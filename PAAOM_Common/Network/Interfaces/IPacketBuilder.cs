@@ -3,7 +3,7 @@ using System;
 
 namespace PAAOM_Common.Network.Interfaces
 {
-    internal interface IPacketBuilder
+    public interface IPacketBuilder
     {
         byte[] BuildPacket(PacketBase packet);
         bool TryParsePacket(byte[] data, out PacketBase packet);

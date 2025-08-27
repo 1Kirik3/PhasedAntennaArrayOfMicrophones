@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using PAAOM_Common.Network.Interfaces;
+﻿using PAAOM_Common.Network.Interfaces;
 using PAAOM_Common.Network.Models;
 using System;
 using System.Net;
@@ -11,30 +10,39 @@ namespace PAAOM_Common.Network.Services
 {
     public class UdpNetworkService : INetworkService
     {
-        private readonly UdpClient _udpClient;
+        private UdpClient _udpClient;
         private readonly IPacketBuilder _packetBuilder;
-        private readonly ILogger<UdpNetworkService> _logger;
         private bool _isListening = false;
         private IPEndPoint _remoteEndPoint;
+
+        public bool IsListening => _isListening;
 
         public event EventHandler<AvailabilityResponse> AvailabilityResponseReceived;
         public event EventHandler<DetectionReport> DetectionReportReceived;
         public event EventHandler<AdcDataPacket> AdcDataReceived;
 
-        public UdpNetworkService(IPacketBuilder packetBuilder, ILogger<UdpNetworkService> logger = null)
+        public UdpNetworkService(IPacketBuilder packetBuilder)
         {
             _packetBuilder = packetBuilder;
-            _logger = logger;
             _udpClient = new UdpClient();
             _udpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
         }
 
         public void Configure(IPEndPoint localEndpoint, IPEndPoint remoteEndpoint)
         {
-            _udpClient.Client.Bind(localEndpoint);
-            _remoteEndPoint = remoteEndpoint;
-            _logger?.LogInformation("Network service configured. Local: {LocalEP}, Remote: {RemoteEP}",
-                localEndpoint, remoteEndpoint);
+            try
+            {
+                // Закрываем предыдущее соединение если было
+                _udpClient?.Close();
+                _udpClient = new UdpClient();
+                _udpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                _udpClient.Client.Bind(localEndpoint);
+                _remoteEndPoint = remoteEndpoint;
+            }
+            catch (SocketException ex)
+            {
+                throw new Exception($"Не удалось занять порт {localEndpoint.Port}: {ex.Message}", ex);
+            }
         }
 
         public void StartListening()
@@ -47,6 +55,7 @@ namespace PAAOM_Common.Network.Services
         public void StopListening()
         {
             _isListening = false;
+            _udpClient?.Close();
         }
 
         public async Task<bool> SendAsync(PacketBase packet)
@@ -58,12 +67,10 @@ namespace PAAOM_Common.Network.Services
             {
                 byte[] data = _packetBuilder.BuildPacket(packet);
                 await _udpClient.SendAsync(data, data.Length, _remoteEndPoint);
-                _logger?.LogDebug("Packet sent. Type: {PacketType}", packet.Type);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger?.LogError(ex, "Error sending packet");
                 return false;
             }
         }
@@ -81,7 +88,6 @@ namespace PAAOM_Common.Network.Services
 
         private async Task ListenLoop()
         {
-            _logger?.LogInformation("Starting UDP listener...");
             while (_isListening)
             {
                 try
@@ -91,25 +97,17 @@ namespace PAAOM_Common.Network.Services
                     {
                         HandleReceivedPacket(packet, result.RemoteEndPoint);
                     }
-                    else
-                    {
-                        _logger?.LogWarning("Invalid packet received from {Sender}", result.RemoteEndPoint);
-                    }
                 }
                 catch (ObjectDisposedException) { break; }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    _logger?.LogError(ex, "Error in listen loop");
                     await Task.Delay(1000);
                 }
             }
-            _logger?.LogInformation("UDP listener stopped.");
         }
 
         private void HandleReceivedPacket(PacketBase packet, IPEndPoint sender)
         {
-            _logger?.LogDebug("Packet received. Type: {Type}, From: {Sender}", packet.Type, sender);
-
             switch (packet)
             {
                 case AvailabilityResponse resp:

@@ -201,4 +201,28 @@
   <data name="Window_Main" xml:space="preserve">
     <value>Фазированная антенная решетка</value>
   </data>
+  <data name="Network" xml:space="preserve">
+    <value>Сеть</value>
+  </data>
+  <data name="Network_ServerSettings" xml:space="preserve">
+    <value>Настройки сервера</value>
+  </data>
+  <data name="Network_LocalIP" xml:space="preserve">
+    <value>Локальный IP</value>
+  </data>
+  <data name="Network_LocalPort" xml:space="preserve">
+    <value>Локальный порт</value>
+  </data>
+  <data name="Network_RemoteIP" xml:space="preserve">
+    <value>Удаленный IP</value>
+  </data>
+  <data name="Network_RemotePort" xml:space="preserve">
+    <value>Удаленный порт</value>
+  </data>
+  <data name="Network_StartServer" xml:space="preserve">
+    <value>Запустить сервер</value>
+  </data>
+  <data name="Network_StopServer" xml:space="preserve">
+    <value>Остановить сервер</value>
+  </data>
 </root>

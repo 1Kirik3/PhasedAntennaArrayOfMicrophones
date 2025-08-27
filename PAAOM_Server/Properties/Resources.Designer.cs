@@ -205,6 +205,78 @@ namespace PAAOM_Server.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Сеть.
+        /// </summary>
+        public static string Network {
+            get {
+                return ResourceManager.GetString("Network", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Локальный IP.
+        /// </summary>
+        public static string Network_LocalIP {
+            get {
+                return ResourceManager.GetString("Network_LocalIP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Локальный порт.
+        /// </summary>
+        public static string Network_LocalPort {
+            get {
+                return ResourceManager.GetString("Network_LocalPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Удаленный IP.
+        /// </summary>
+        public static string Network_RemoteIP {
+            get {
+                return ResourceManager.GetString("Network_RemoteIP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Удаленный порт.
+        /// </summary>
+        public static string Network_RemotePort {
+            get {
+                return ResourceManager.GetString("Network_RemotePort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Настройки сервера.
+        /// </summary>
+        public static string Network_ServerSettings {
+            get {
+                return ResourceManager.GetString("Network_ServerSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Запустить сервер.
+        /// </summary>
+        public static string Network_StartServer {
+            get {
+                return ResourceManager.GetString("Network_StartServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Остановить сервер.
+        /// </summary>
+        public static string Network_StopServer {
+            get {
+                return ResourceManager.GetString("Network_StopServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Источник.
         /// </summary>
         public static string Source {

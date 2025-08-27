@@ -139,6 +139,48 @@
                     </GroupBox>
                 </StackPanel>
             </TabItem>
+
+            <!-- Вкладка сетевых настроек -->
+            <TabItem Header="{x:Static properties:Resources.Network}">
+                <StackPanel>
+                    <GroupBox Header="{x:Static properties:Resources.Network_ServerSettings}">
+                        <StackPanel>
+                            <Label Content="{x:Static properties:Resources.Network_LocalIP}"/>
+                            <ComboBox ItemsSource="{Binding NetworkSettings.AvailableIPs}"
+                         SelectedItem="{Binding NetworkSettings.LocalIP}"
+                         Margin="0,0,0,10"/>
+
+                            <Label Content="{x:Static properties:Resources.Network_LocalPort}"/>
+                            <TextBox Text="{Binding NetworkSettings.LocalPort, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="0,0,0,10"/>
+
+                            <Label Content="{x:Static properties:Resources.Network_RemoteIP}"/>
+                            <TextBox Text="{Binding NetworkSettings.RemoteIP, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="0,0,0,10"/>
+
+                            <Label Content="{x:Static properties:Resources.Network_RemotePort}"/>
+                            <TextBox Text="{Binding NetworkSettings.RemotePort, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="0,0,0,10"/>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+                                <Button Content="{x:Static properties:Resources.Network_StartServer}" 
+                           Command="{Binding StartServerCommand}"
+                           Margin="0,0,10,0" Padding="10,5"/>
+                                <Button Content="{x:Static properties:Resources.Network_StopServer}" 
+                           Command="{Binding StopServerCommand}"
+                           Padding="10,5"/>
+                            </StackPanel>
+
+                            <TextBlock Text="{Binding NetworkStatus}" 
+                          Margin="0,10" 
+                          HorizontalAlignment="Center"
+                          FontWeight="Bold"
+                          Foreground="{Binding NetworkStatusColor}"/>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+
         </TabControl>
 
         <Button Content="{x:Static properties:Resources.Button_Apply}" Command="{Binding ApplySettingsCommand}"

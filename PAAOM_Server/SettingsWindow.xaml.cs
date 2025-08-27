@@ -7,9 +7,6 @@ using System.Windows.Input;
 
 namespace PAAOM_Server
 {
-	/// <summary>
-	/// Логика взаимодействия для SettingsWindow.xaml
-	/// </summary>
 	public partial class SettingsWindow : Window
 	{
 		public SettingsWindow()
@@ -78,14 +75,14 @@ namespace PAAOM_Server
 
 			int caretPosition = textBox.CaretIndex;
 
-			// Проверяем, что текст содержит не более одной точки/запятой
+			// Провека на наличие одной запятой
 			string text = textBox.Text;
 			int dotCount = text.Count(c => c == '.');
 			int commaCount = text.Count(c => c == ',');
 
 			if (dotCount + commaCount > 1)
 			{
-				// Удаляем лишние точки/запятые
+				// Удаление лишних точек
 				bool hasDot = text.Contains('.');
 				text = new string(text.Where(c => char.IsDigit(c) ||
 												(c == '.' && !hasDot) ||
@@ -95,7 +92,7 @@ namespace PAAOM_Server
 				return;
 			}
 
-			// Заменяем запятую на точку
+			// Замена запятой на точку
 			if (text.Contains(','))
 			{
 				text = text.Replace(',', '.');

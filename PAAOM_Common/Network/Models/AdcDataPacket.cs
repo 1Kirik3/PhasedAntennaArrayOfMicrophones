@@ -18,11 +18,11 @@ namespace PAAOM_Common.Network.Models
             ChannelSamples = new short[8][];
             for (int i = 0; i < 8; i++)
             {
-                ChannelSamples[i] = new short[125]; // По 125 отсчетов на канал
+                ChannelSamples[i] = new short[125];
             }
         }
 
-        public override ushort CalculateBodyLength() => (ushort)(2 + 4 + 2 + (8 * 125 * 2)); // 2008
+        public override ushort CalculateBodyLength() => (ushort)(2 + 4 + 2 + (8 * 125 * 2));
 
         public override void WriteBody(Span<byte> buffer)
         {

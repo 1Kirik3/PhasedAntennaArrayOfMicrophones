@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 
 namespace PAAOM_Common.Network.Interfaces
 {
-    internal interface INetworkService : IDisposable
+    public interface INetworkService : IDisposable
     {
         event EventHandler<AvailabilityResponse> AvailabilityResponseReceived;
         event EventHandler<DetectionReport> DetectionReportReceived;
         event EventHandler<AdcDataPacket> AdcDataReceived;
+
+        bool IsListening { get; }
 
         void Configure(IPEndPoint localEndpoint, IPEndPoint remoteEndpoint);
         Task<bool> SendAsync(PacketBase packet);
