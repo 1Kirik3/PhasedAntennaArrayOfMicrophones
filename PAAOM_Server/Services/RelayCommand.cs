@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace PAAOM_Server.ViewModels
+namespace PAAOM_Server.Services
 {
 	public class RelayCommand : ICommand
 	{

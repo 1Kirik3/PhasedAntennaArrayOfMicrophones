@@ -225,4 +225,13 @@
   <data name="Network_StopServer" xml:space="preserve">
     <value>Остановить сервер</value>
   </data>
+  <data name="Network_SendPacket" xml:space="preserve">
+    <value>Отправить пакет</value>
+  </data>
+  <data name="Network_TestConnection" xml:space="preserve">
+    <value>Проверить связь</value>
+  </data>
+  <data name="Network_SendReport" xml:space="preserve">
+    <value>Отправить отчет</value>
+  </data>
 </root>

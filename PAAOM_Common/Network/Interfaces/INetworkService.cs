@@ -1,12 +1,14 @@
 ﻿using PAAOM_Common.Network.Models;
 using System;
+using System.ComponentModel;
 using System.Net;
 using System.Threading.Tasks;
 
 namespace PAAOM_Common.Network.Interfaces
 {
-    public interface INetworkService : IDisposable
+    public interface INetworkService : IDisposable, INotifyPropertyChanged
     {
+        event EventHandler<AvailabilityRequest> AvailabilityRequestReceived;
         event EventHandler<AvailabilityResponse> AvailabilityResponseReceived;
         event EventHandler<DetectionReport> DetectionReportReceived;
         event EventHandler<AdcDataPacket> AdcDataReceived;

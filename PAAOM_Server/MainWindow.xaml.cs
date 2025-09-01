@@ -3,6 +3,7 @@ using LiveCharts.Wpf;
 using PAAOM_Common.Models;
 using PAAOM_Common.Network.Interfaces;
 using PAAOM_Common.Network.Services;
+using PAAOM_Server.Services;
 using PAAOM_Server.ViewModels;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -218,7 +219,6 @@ namespace PAAOM_Server
         {
             if (SignalData == null || SignalData.Length == 0) return;
 
-            // Передаем частоту сигнала в конструктор SpectrumWindow
             var spectrumWindow = new SpectrumWindow(
                 SignalData,
                 Title,

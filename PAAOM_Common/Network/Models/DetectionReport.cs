@@ -8,7 +8,7 @@ namespace PAAOM_Common.Network.Models
         public override byte Type => 0x04;
 
         public uint DetectionTimeUnix { get; set; }       // 4 байта
-        public ushort DetectionTimeFine { get; set; }    // 2 байта (десятитысячные доли секунды?)
+        public ushort DetectionTimeFine { get; set; }    // 2 байта
         public ushort MeasurementNumber { get; set; }    // 2 байта
         public ushort TargetType { get; set; }            // 2 байта
         public ushort Snr { get; set; }                  // 2 байта (ОСП)
@@ -16,10 +16,10 @@ namespace PAAOM_Common.Network.Models
         public float BearingRate { get; set; }           // 4 байта (ВИП)
         public ushort Distance { get; set; }             // 2 байта
         public float DistanceRate { get; set; }          // 4 байта (ВИФ)
-        public ushort AngleStdDev { get; set; }          // 2 байта (СКО угла, в десятых долях)
-        public ushort TimeStdDev { get; set; }           // 2 байта (СКО времени, в см)
+        public ushort AngleStdDev { get; set; }          // 2 байта 
+        public ushort TimeStdDev { get; set; }           // 2 байта 
 
-        public override ushort CalculateBodyLength() => 30; // 4+2+2+2+2+4+4+2+4+2+2
+        public override ushort CalculateBodyLength() => 30; 
 
         public override void WriteBody(Span<byte> buffer)
         {

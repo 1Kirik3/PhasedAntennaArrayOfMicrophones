@@ -1,6 +1,7 @@
 ﻿using PAAOM_Common.Network.Interfaces;
 using PAAOM_Common.Network.Models;
 using System;
+using System.ComponentModel;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -17,9 +18,11 @@ namespace PAAOM_Common.Network.Services
 
         public bool IsListening => _isListening;
 
+        public event EventHandler<AvailabilityRequest> AvailabilityRequestReceived;
         public event EventHandler<AvailabilityResponse> AvailabilityResponseReceived;
         public event EventHandler<DetectionReport> DetectionReportReceived;
         public event EventHandler<AdcDataPacket> AdcDataReceived;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public UdpNetworkService(IPacketBuilder packetBuilder)
         {
@@ -32,12 +35,14 @@ namespace PAAOM_Common.Network.Services
         {
             try
             {
-                // Закрываем предыдущее соединение если было
-                _udpClient?.Close();
+                StopListening();
+
                 _udpClient = new UdpClient();
                 _udpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
                 _udpClient.Client.Bind(localEndpoint);
                 _remoteEndPoint = remoteEndpoint;
+
+                StartListening();
             }
             catch (SocketException ex)
             {
@@ -48,8 +53,17 @@ namespace PAAOM_Common.Network.Services
         public void StartListening()
         {
             if (_isListening) return;
-            _isListening = true;
-            _ = Task.Run(ListenLoop);
+
+            try
+            {
+                _isListening = true;
+                _ = Task.Run(ListenLoop);
+            }
+            catch (Exception ex)
+            {
+                _isListening = false;
+                throw new Exception("Failed to start listening", ex);
+            }
         }
 
         public void StopListening()
@@ -77,18 +91,48 @@ namespace PAAOM_Common.Network.Services
 
         public async Task<bool> CheckAvailabilityAsync(ushort packetId, int timeoutMs = 1000)
         {
-            var request = new AvailabilityRequest { PacketId = packetId };
-            var responseTask = WaitForSpecificResponse<AvailabilityResponse>(
-                timeoutMs, resp => resp.PacketId == packetId);
+            if (!_isListening)
+                throw new InvalidOperationException("Service is not listening");
 
-            await SendAsync(request);
-            var response = await responseTask;
-            return response != null;
+            var tcs = new TaskCompletionSource<bool>();
+            var cts = new CancellationTokenSource(timeoutMs);
+
+            // Обработчик для конкретного пакета
+            void Handler(object sender, AvailabilityResponse response)
+            {
+                if (response.PacketId == packetId)
+                {
+                    tcs.TrySetResult(true);
+                }
+            }
+
+            AvailabilityResponseReceived += Handler;
+
+            // Отмена по таймеру
+            cts.Token.Register(() =>
+            {
+                tcs.TrySetResult(false);
+                AvailabilityResponseReceived -= Handler;
+            });
+
+            try
+            {
+                // Отправка запроса
+                var request = new AvailabilityRequest { PacketId = packetId };
+                await SendAsync(request);
+
+                return await tcs.Task;
+            }
+            finally
+            {
+                AvailabilityResponseReceived -= Handler;
+                cts.Dispose();
+            }
         }
 
         private async Task ListenLoop()
         {
-            while (_isListening)
+            while (_isListening && _udpClient != null)
             {
                 try
                 {
@@ -98,9 +142,18 @@ namespace PAAOM_Common.Network.Services
                         HandleReceivedPacket(packet, result.RemoteEndPoint);
                     }
                 }
-                catch (ObjectDisposedException) { break; }
-                catch (Exception)
+                catch (ObjectDisposedException)
                 {
+                    break;
+                }
+                catch (SocketException ex) when (ex.SocketErrorCode == SocketError.Interrupted)
+                {
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    // Логируем ошибку, но продолжаем слушать
+                    Console.WriteLine($"Listen error: {ex.Message}");
                     await Task.Delay(1000);
                 }
             }
@@ -110,6 +163,9 @@ namespace PAAOM_Common.Network.Services
         {
             switch (packet)
             {
+                case AvailabilityRequest request: 
+                    AvailabilityRequestReceived?.Invoke(this, request);
+                    break;
                 case AvailabilityResponse resp:
                     AvailabilityResponseReceived?.Invoke(this, resp);
                     break;
@@ -120,53 +176,6 @@ namespace PAAOM_Common.Network.Services
                     AdcDataReceived?.Invoke(this, adcData);
                     break;
             }
-        }
-
-        private Task<T> WaitForSpecificResponse<T>(int timeoutMs, Func<T, bool> predicate) where T : PacketBase
-        {
-            var tcs = new TaskCompletionSource<T>();
-            var cts = new CancellationTokenSource(timeoutMs);
-
-            EventHandler<T> handler = null;
-            handler = (sender, response) =>
-            {
-                if (predicate(response))
-                {
-                    tcs.TrySetResult(response);
-                }
-            };
-
-            SubscribeHandler(handler);
-
-            cts.Token.Register(() =>
-            {
-                tcs.TrySetResult(null);
-                UnsubscribeHandler(handler);
-            });
-
-            tcs.Task.ContinueWith(_ => UnsubscribeHandler(handler), TaskScheduler.Default);
-
-            return tcs.Task;
-        }
-
-        private void SubscribeHandler<T>(EventHandler<T> handler) where T : PacketBase
-        {
-            if (typeof(T) == typeof(AvailabilityResponse))
-                AvailabilityResponseReceived += handler as EventHandler<AvailabilityResponse>;
-            else if (typeof(T) == typeof(DetectionReport))
-                DetectionReportReceived += handler as EventHandler<DetectionReport>;
-            else if (typeof(T) == typeof(AdcDataPacket))
-                AdcDataReceived += handler as EventHandler<AdcDataPacket>;
-        }
-
-        private void UnsubscribeHandler<T>(EventHandler<T> handler) where T : PacketBase
-        {
-            if (typeof(T) == typeof(AvailabilityResponse))
-                AvailabilityResponseReceived -= handler as EventHandler<AvailabilityResponse>;
-            else if (typeof(T) == typeof(DetectionReport))
-                DetectionReportReceived -= handler as EventHandler<DetectionReport>;
-            else if (typeof(T) == typeof(AdcDataPacket))
-                AdcDataReceived -= handler as EventHandler<AdcDataPacket>;
         }
 
         public void Dispose()

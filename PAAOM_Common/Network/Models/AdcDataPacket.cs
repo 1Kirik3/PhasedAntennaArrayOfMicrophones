@@ -34,7 +34,6 @@ namespace PAAOM_Common.Network.Models
             BinaryPrimitives.WriteUInt16LittleEndian(buffer.Slice(offset, 2), Reserved);
             offset += 2;
 
-            // Записываем отсчеты всех каналов
             for (int channel = 0; channel < 8; channel++)
             {
                 for (int sample = 0; sample < 125; sample++)

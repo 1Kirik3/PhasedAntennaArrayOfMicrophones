@@ -250,6 +250,24 @@ namespace PAAOM_Server.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Отправить пакет.
+        /// </summary>
+        public static string Network_SendPacket {
+            get {
+                return ResourceManager.GetString("Network_SendPacket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Отправить отчет.
+        /// </summary>
+        public static string Network_SendReport {
+            get {
+                return ResourceManager.GetString("Network_SendReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Настройки сервера.
         /// </summary>
         public static string Network_ServerSettings {
@@ -273,6 +291,15 @@ namespace PAAOM_Server.Properties {
         public static string Network_StopServer {
             get {
                 return ResourceManager.GetString("Network_StopServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Проверить связь.
+        /// </summary>
+        public static string Network_TestConnection {
+            get {
+                return ResourceManager.GetString("Network_TestConnection", resourceCulture);
             }
         }
         

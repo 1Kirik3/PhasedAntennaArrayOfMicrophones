@@ -3,10 +3,110 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:PAAOM_Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="PAAOM Client - Графики сигналов" Height="690" Width="936">
+    <Window.Resources>
+        <Style TargetType="TextBlock" x:Key="HeaderStyle">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,5"/>
+        </Style>
+    </Window.Resources>
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Первая строка: Панель управления и статус -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,5" HorizontalAlignment="Left">
+            <Button x:Name="ConnectButton" Content="Подключиться" 
+                    Click="ConnectButton_Click" Margin="5" Padding="10,5"/>
+            <Button x:Name="DisconnectButton" Content="Отключиться" 
+                    Click="DisconnectButton_Click" Margin="5" Padding="10,5"/>
+            <TextBlock x:Name="StatusText" Margin="10" VerticalAlignment="Center" 
+                       TextWrapping="Wrap" MinWidth="200"/>
+        </StackPanel>
+
+        <!-- Вторая строка: Панель информации об обнаружении -->
+        <Border Grid.Row="1" Background="LightBlue" Margin="5" Padding="5">
+            <StackPanel x:Name="DetectionPanel" Orientation="Horizontal" 
+                        HorizontalAlignment="Center" DataContext="{Binding}">
+                <TextBlock Text="{Binding BearingInfo}" Margin="10,5" FontWeight="Bold" 
+                           TextWrapping="Wrap" MinWidth="120"/>
+                <TextBlock Text="{Binding DistanceInfo}" Margin="10,5" FontWeight="Bold" 
+                           TextWrapping="Wrap" MinWidth="120"/>
+                <TextBlock Text="{Binding SnrInfo}" Margin="10,5" FontWeight="Bold" 
+                           TextWrapping="Wrap" MinWidth="120"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Третья строка: Область с графиками -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="MicrophonesContainer" Margin="5">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="2"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="5">
+                            <StackPanel>
+                                <!-- Заголовок и кнопка спектра -->
+                                <Grid Margin="0,0,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{Binding Title}" 
+                                               Grid.Column="0"
+                                               Style="{StaticResource HeaderStyle}"
+                                               TextWrapping="Wrap"/>
+
+                                    <Button Content="Спектр" 
+                                            Grid.Column="1"
+                                            Command="{Binding ShowSpectrumCommand}"
+                                            Margin="5,0"
+                                            Padding="10,2"
+                                            MinWidth="60"/>
+                                </Grid>
+
+                                <!-- График сигнала -->
+                                <lvc:CartesianChart Series="{Binding Series}" 
+                                    Height="200"
+                                    DisableAnimations="True"
+                                    Margin="0,5">
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis Title="Время, мс" 
+                                            LabelFormatter="{Binding XAxisFormatter}">
+                                            <lvc:Axis.Separator>
+                                                <lvc:Separator Step="{Binding TimeStep}"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Title="Амплитуда" 
+                                            LabelFormatter="{Binding YAxisFormatter}"/>
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+
+                                <!-- Информация о пакете -->
+                                <TextBlock Text="{Binding PacketInfo}" 
+                                           Margin="5" FontStyle="Italic" 
+                                           HorizontalAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </Window>
