@@ -1,6 +1,7 @@
 ﻿using LiveCharts;
 using LiveCharts.Wpf;
 using PAAOM_Client.Services;
+using PAAOM_Client.ViewModels;
 using PAAOM_Common.Network.Interfaces;
 using PAAOM_Common.Network.Models;
 using PAAOM_Common.Network.Services;
@@ -94,7 +95,7 @@ namespace PAAOM_Client
         {
             Dispatcher.Invoke(() =>
             {
-                StatusText.Text = $"Обнаружение: Азимут={report.Bearing}°, Дистанция={report.Distance}м";
+                //StatusText.Text = $"Обнаружение: Азимут={report.Bearing}°, Дистанция={report.Distance}м";
                 _detectionInfo.UpdateFromReport(report);
             });
         }
@@ -148,44 +149,6 @@ namespace PAAOM_Client
             StatusText.Text = "Отключено";
             ConnectButton.IsEnabled = true;
             DisconnectButton.IsEnabled = false;
-        }
-    }
-
-    public class DetectionInfoViewModel : INotifyPropertyChanged
-    {
-        private string _bearingInfo = "Нет данных";
-        private string _distanceInfo = "Нет данных";
-        private string _snrInfo = "Нет данных";
-
-        public string BearingInfo
-        {
-            get => _bearingInfo;
-            set { _bearingInfo = value; OnPropertyChanged(); }
-        }
-
-        public string DistanceInfo
-        {
-            get => _distanceInfo;
-            set { _distanceInfo = value; OnPropertyChanged(); }
-        }
-
-        public string SnrInfo
-        {
-            get => _snrInfo;
-            set { _snrInfo = value; OnPropertyChanged(); }
-        }
-
-        public void UpdateFromReport(DetectionReport report)
-        {
-            BearingInfo = $"Азимут: {report.Bearing:F1}°";
-            DistanceInfo = $"Дистанция: {report.Distance} м";
-            SnrInfo = $"ОСП: {report.Snr}";
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 

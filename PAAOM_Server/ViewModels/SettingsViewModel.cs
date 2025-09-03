@@ -15,6 +15,10 @@ namespace PAAOM_Server.ViewModels
     public class SettingsViewModel : INotifyPropertyChanged
     {
         private readonly INetworkService _networkService;
+
+        private readonly DetectionCalculator _detectionCalculator;
+        private readonly AdcDataGenerator _adcDataGenerator;
+
         private ushort _currentPacketId = 1234;
         private bool _isConnectionVerified = false;
 
@@ -59,6 +63,9 @@ namespace PAAOM_Server.ViewModels
             INetworkService networkService)
         {
             _networkService = networkService;
+            _detectionCalculator = new DetectionCalculator(envSettings, audioSource, microphoneArray);
+            _adcDataGenerator = new AdcDataGenerator(envSettings, audioSource, microphoneArray);
+
             _networkService.PropertyChanged += OnNetworkServicePropertyChanged;
 
             EnvironmentSettings = new EnvironmentSettingsViewModel(envSettings);
@@ -162,21 +169,8 @@ namespace PAAOM_Server.ViewModels
 
             try
             {
-                var detectionReport = new DetectionReport
-                {
-                    PacketId = _currentPacketId++,
-                    DetectionTimeUnix = (uint)DateTimeOffset.Now.ToUnixTimeSeconds(),
-                    DetectionTimeFine = 5000, // пример значения
-                    MeasurementNumber = 1,
-                    TargetType = 1, // пример: воздушная цель
-                    Snr = 250, // ОСП
-                    Bearing = 45.5f, // азимут 45.5 градусов
-                    BearingRate = 2.1f, // ВИП
-                    Distance = 1200, // дистанция 1200 м
-                    DistanceRate = -5.3f, // ВИФ
-                    AngleStdDev = 15, // СКО угла (1.5 градуса)
-                    TimeStdDev = 25 // СКО времени (25 см)
-                };
+                var detectionReport = _detectionCalculator.CalculateDetectionReport();
+                detectionReport.PacketId = _currentPacketId++;
 
                 bool success = await _networkService.SendAsync(detectionReport);
                 MessageBox.Show(success ? "Отчет об обнаружении отправлен" : "Ошибка отправки",
@@ -198,23 +192,11 @@ namespace PAAOM_Server.ViewModels
 
             try
             {
-                var adcPacket = new AdcDataPacket
-                {
-                    PacketId = _currentPacketId++,
-                    SequenceNumber = 1,
-                    StartTime = (uint)(DateTime.Now.TimeOfDay.TotalSeconds)
-                };
+                var adcPacket = _adcDataGenerator.GenerateAdcData();
+                adcPacket.PacketId = _currentPacketId++;
 
-                // Заполняем тестовыми данными (синусоида разной частоты для каждого канала)
-                for (int channel = 0; channel < 8; channel++)
-                {
-                    for (int i = 0; i < 125; i++)
-                    {
-                        double time = i / 125.0 * 2 * Math.PI;
-                        double frequency = 1.0 + channel * 0.5; // Разная частота для каждого канала
-                        adcPacket.ChannelSamples[channel][i] = (short)(Math.Sin(time * frequency) * short.MaxValue * 0.8);
-                    }
-                }
+                // Проверяем данные перед отправкой
+                ValidateAdcData(adcPacket);
 
                 bool success = await _networkService.SendAsync(adcPacket);
                 MessageBox.Show(success ? "ADC данные отправлены" : "Ошибка отправки",
@@ -222,7 +204,19 @@ namespace PAAOM_Server.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка отправки ADC данных: {ex.Message}", "Ошибка");
+                MessageBox.Show($"Ошибка генерации ADC данных: {ex.Message}", "Ошибка");
+            }
+        }
+
+        private void ValidateAdcData(AdcDataPacket packet)
+        {
+            for (int channel = 0; channel < 8; channel++)
+            {
+                if (packet.ChannelSamples[channel].Length != 125)
+                {
+                    throw new InvalidOperationException(
+                        $"Канал {channel} содержит {packet.ChannelSamples[channel].Length} отсчетов вместо 125");
+                }
             }
         }
 
@@ -250,7 +244,6 @@ namespace PAAOM_Server.ViewModels
             return canExecute;
         }
         private bool CanSendData() => _isConnectionVerified && _networkService.IsListening;
-
 
         private void LoadAvailableIPs()
         {
