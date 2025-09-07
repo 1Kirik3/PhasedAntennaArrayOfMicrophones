@@ -195,11 +195,11 @@
   <data name="Button_Apply" xml:space="preserve">
     <value>Применить</value>
   </data>
-  <data name="Window_SystemParametrs" xml:space="preserve">
+  <data name="MainWindow_SystemParametrs" xml:space="preserve">
     <value>Параметры системы</value>
   </data>
-  <data name="Window_Main" xml:space="preserve">
-    <value>Фазированная антенная решетка</value>
+  <data name="MainWindow_Titile" xml:space="preserve">
+    <value>Сервер ФАР</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Сеть</value>

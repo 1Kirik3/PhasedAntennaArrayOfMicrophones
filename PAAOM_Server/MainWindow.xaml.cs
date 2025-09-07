@@ -1,245 +1,86 @@
-﻿using LiveCharts;
-using LiveCharts.Wpf;
-using PAAOM_Common.Models;
-using PAAOM_Common.Network.Interfaces;
-using PAAOM_Common.Network.Services;
-using PAAOM_Server.Services;
-using PAAOM_Server.ViewModels;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using PAAOM_Server.ViewModels;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Media3D;
 
 namespace PAAOM_Server
 {
     public partial class MainWindow : Window
     {
-        private EnvironmentSettings _environmentSettings;
-        private AudioSource _audioSource;
-        private MicrophoneArray _array;
-        private SignalGenerator _signalGenerator;
-        private INetworkService _networkService;
-
-        private EnvironmentSettingsViewModel _environmentSettingsViewModel;
-        private AudioSourceViewModel _audioSourceViewModel;
-        private MicrophoneArrayViewModel _arrayViewModel;
-        private MainViewModel _mainViewModel;
-
         public MainWindow()
         {
             InitializeComponent();
-            InitializeModels();
-            InitializeNetworkService();
-            InitializeViewModels();
         }
 
-        private void InitializeNetworkService()
+        private void NoiseLevelTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            var crcCalculator = new Crc16Calculator();
-            var packetBuilder = new PacketBuilder(crcCalculator);
-            _networkService = new UdpNetworkService(packetBuilder);
-        }
+            var textBox = sender as TextBox;
+            string currentText = textBox.Text;
+            int caretIndex = textBox.CaretIndex;
+            string newText = currentText.Substring(0, caretIndex) + e.Text + currentText.Substring(caretIndex);
 
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_environmentSettings == null || _audioSource == null || _array == null || _networkService == null)
+            if (!(char.IsDigit(e.Text, 0) || e.Text == "." || e.Text == ","))
             {
-                MessageBox.Show("Ошибка инициализации параметров", "Ошибка",
-                              MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Handled = true;
                 return;
             }
 
-            var settingsWindow = new SettingsWindow
+            if (decimal.TryParse(newText.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out decimal result))
             {
-                Owner = this,
-                DataContext = new SettingsViewModel(
-                    _environmentSettings,
-                    _audioSource,
-                    _array,
-                    _networkService)
-            };
-
-            if (settingsWindow.ShowDialog() == true)
-            {
-                _array.UpdateGeometry();
-            }
-        }
-
-        private void InitializeViewModels()
-        {
-            _mainViewModel = new MainViewModel(_environmentSettings, _audioSource, _array);
-            this.DataContext = _mainViewModel;
-        }
-
-        private void InitializeModels()
-        {
-            _environmentSettings = new EnvironmentSettings
-            {
-                TemperatureCelsius = 20.0f,
-                NoiseLevel = 0.05f
-            };
-
-            _audioSource = new AudioSource
-            {
-                Frequency = 500f,
-                Amplitude = 1.0f,
-                Position = new Point3D(5, 5, 0)
-            };
-
-            _array = new MicrophoneArray(_environmentSettings, _audioSource)
-            {
-                Radius = 0.5f,
-                ArrayCenter = new Point3D(0, 0, 0)
-            };
-
-            _signalGenerator = new SignalGenerator();
-        }
-
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateGraphs();
-            MessageBox.Show("Графики успешно обновлены!", "Обновление",
-                          MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        private void UpdateGraphs()
-        {
-            try
-            {
-                int microphoneCount = _array.MicrophonesCount;
-                var signals = _signalGenerator.GenerateSignals(_array, _audioSource, _environmentSettings);
-                MicrophonesContainer.Items.Clear();
-
-                if (signals.Count != microphoneCount) return;
-
-                for (int i = 0; i < microphoneCount; i++)
+                if (result < 0 || result > 1)
                 {
-                    var signalData = signals[i];
-
-                    var viewModel = new MicrophoneGraphViewModel(_audioSource.Frequency)
-                    {
-                        Title = $"Микрофон {i + 1}",
-                        SignalData = signalData, 
-                        Series = new SeriesCollection
-                {
-                    new LineSeries
-                    {
-                        Values = new ChartValues<double>(signalData),
-                        LineSmoothness = 0,
-                        PointGeometry = null
-                    }
-                }
-                    };
-
-                    MicrophonesContainer.Items.Add(viewModel);
+                    e.Handled = true;
                 }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show($"Ошибка обновления: {ex.Message}", "Ошибка",
-                              MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-    }
-
-    public class MicrophoneGraphViewModel : INotifyPropertyChanged
-    {
-        private double[] _signalData;
-        private readonly double _signalFrequency;
-        private double _minAmplitude;
-        private double _maxAmplitude;
-
-        public double TimeStep { get; } = 5.0;
-
-        public Func<double, string> XAxisFormatter => value =>
-            (value % TimeStep == 0) ? $"{value:F0}" : string.Empty;
-
-        public Func<double, string> YAxisFormatter { get; } = value => $"{value:F2}";
-
-        public string Title { get; set; }
-        public SeriesCollection Series { get; set; }
-        public ICommand ShowSpectrumCommand { get; }
-
-        public double MinAmplitude
-        {
-            get => _minAmplitude;
-            set
-            {
-                _minAmplitude = value;
-                OnPropertyChanged();
+                if ((e.Text == "." || e.Text == ",") && !currentText.Contains('.') && !currentText.Contains(','))
+                {
+                    return;
+                }
+                e.Handled = true;
             }
         }
 
-        public double MaxAmplitude
+        private void NoiseLevelTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            get => _maxAmplitude;
-            set
-            {
-                _maxAmplitude = value;
-                OnPropertyChanged();
-            }
-        }
+            var textBox = sender as TextBox;
+            if (string.IsNullOrEmpty(textBox.Text)) return;
 
-        public double[] SignalData
-        {
-            get => _signalData;
-            set
-            {
-                _signalData = value;
-                CalculateAmplitudeRange();
-                OnPropertyChanged();
-            }
-        }
+            int caretPosition = textBox.CaretIndex;
+            string text = textBox.Text;
 
-        public MicrophoneGraphViewModel(double signalFrequency)
-        {
-            _signalFrequency = signalFrequency;
-            ShowSpectrumCommand = new RelayCommand(ShowSpectrum, CanShowSpectrum);
-        }
+            int dotCount = text.Count(c => c == '.');
+            int commaCount = text.Count(c => c == ',');
 
-        private void CalculateAmplitudeRange()
-        {
-            if (SignalData == null || SignalData.Length == 0)
+            if (dotCount + commaCount > 1)
             {
-                MinAmplitude = -1;
-                MaxAmplitude = 1;
+                bool hasDot = text.Contains('.');
+                text = new string(text.Where(c => char.IsDigit(c) ||
+                                                (c == '.' && !hasDot) ||
+                                                (c == ',' && !hasDot)).ToArray());
+                textBox.Text = text;
+                textBox.CaretIndex = Math.Min(caretPosition, text.Length);
                 return;
             }
 
-            double max = SignalData.Max();
-            double min = SignalData.Min();
-
-            double margin = Math.Max(Math.Abs(max), Math.Abs(min)) * 0.1;
-            MaxAmplitude = max + margin;
-            MinAmplitude = min - margin;
-        }
-
-        private void ShowSpectrum()
-        {
-            if (SignalData == null || SignalData.Length == 0) return;
-
-            var spectrumWindow = new SpectrumWindow(
-                SignalData,
-                Title,
-                SignalGenerator.OutputSampleRate,
-                _signalFrequency)
+            if (text.Contains(','))
             {
-                Owner = Application.Current.MainWindow
-            };
-            spectrumWindow.Show();
+                text = text.Replace(',', '.');
+                textBox.Text = text;
+                textBox.CaretIndex = Math.Min(caretPosition, text.Length);
+            }
         }
 
-        private bool CanShowSpectrum()
+        private void ApplySettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            return SignalData != null && SignalData.Length > 0;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (DataContext is SettingsViewModel viewModel)
+            {
+                viewModel.ApplySettingsCommand.Execute(null);
+                MessageBox.Show("Настройки успешно применены!", "Успех",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

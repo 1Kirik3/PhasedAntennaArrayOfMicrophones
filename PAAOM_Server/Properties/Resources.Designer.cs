@@ -223,6 +223,24 @@ namespace PAAOM_Server.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Параметры системы.
+        /// </summary>
+        public static string MainWindow_SystemParametrs {
+            get {
+                return ResourceManager.GetString("MainWindow_SystemParametrs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Сервер ФАР.
+        /// </summary>
+        public static string MainWindow_Titile {
+            get {
+                return ResourceManager.GetString("MainWindow_Titile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Обновить графики.
         /// </summary>
         public static string MainWindow_UpdateGraphs {
@@ -417,24 +435,6 @@ namespace PAAOM_Server.Properties {
         public static string Source_SignalPhase1 {
             get {
                 return ResourceManager.GetString("Source_SignalPhase1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Фазированная антенная решетка.
-        /// </summary>
-        public static string Window_Main {
-            get {
-                return ResourceManager.GetString("Window_Main", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Параметры системы.
-        /// </summary>
-        public static string Window_SystemParametrs {
-            get {
-                return ResourceManager.GetString("Window_SystemParametrs", resourceCulture);
             }
         }
     }

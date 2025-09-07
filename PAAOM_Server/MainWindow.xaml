@@ -3,16 +3,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-        xmlns:local="clr-namespace:PAAOM_Server"
         xmlns:properties="clr-namespace:PAAOM_Server.Properties"
         mc:Ignorable="d"
-        Title="{x:Static properties:Resources.Window_Main}" Height="484" Width="582">
+        Title="{x:Static properties:Resources.MainWindow_SystemParametrs}" 
+        Height="600" 
+        Width="800"
+        MinWidth="700"
+        MinHeight="500">
+
     <Window.Resources>
-        <Style TargetType="TextBlock" x:Key="HeaderStyle">
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="0,10,0,0"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,5"/>
+        </Style>
+
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
         </Style>
     </Window.Resources>
 
@@ -22,86 +34,192 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Панель с управляющими кнопками -->
-        <Grid Grid.Row="0" Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+        <!-- Заголовок и статус -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+            <TextBlock Text="{x:Static properties:Resources.MainWindow_Titile}" FontSize="16" FontWeight="Bold" Margin="0,0,10,0"/>
+            <TextBlock Text="{Binding NetworkStatus}" 
+                       FontWeight="Bold"
+                       Foreground="{Binding NetworkStatusColor}"
+                       VerticalAlignment="Center"/>
+        </StackPanel>
 
-            <!-- Кнопка Обновить -->
-            <Button x:Name="UpdateButton" 
-                    Grid.Column="0"
-                    Content="{x:Static properties:Resources.MainWindow_UpdateGraphs}" 
-                    Padding="15,5"
-                    FontWeight="Bold"
-                    HorizontalAlignment="Left"
-                    Click="UpdateButton_Click" Height="30" VerticalAlignment="Top"/>
-
-            <!-- Кнопка Настройки -->
-            <Button Grid.Column="1"
-                    Content="{x:Static properties:Resources.MainWindow_Settings}" 
-                    Width="100"
-                    Height="30"
-                    HorizontalAlignment="Right"
-                    Click="SettingsButton_Click"/>
-        </Grid>
-
-        <!-- Область с графиками -->
-        <ScrollViewer Grid.Row="1">
-            <ItemsControl x:Name="MicrophonesContainer">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="2"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="Gray" BorderThickness="1" Margin="5">
+        <!-- Основная область с настройками -->
+        <TabControl Grid.Row="1" Margin="10">
+            <!-- Вкладка параметров среды -->
+            <TabItem Header="{x:Static properties:Resources.Environment}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <GroupBox Header="{x:Static properties:Resources.Environment_AirParametrs}">
                             <StackPanel>
-                                <!-- Заголовок и кнопка спектра в одной строке -->
-                                <Grid Margin="0,0,0,5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
+                                <Label Content="{x:Static properties:Resources.Environment_AirTemperature}"/>
+                                <TextBox Text="{Binding EnvironmentSettings.Temperature, UpdateSourceTrigger=PropertyChanged}"/>
 
-                                    <TextBlock Text="{Binding Title}" 
-                                               Grid.Column="0"
-                                               Style="{StaticResource HeaderStyle}"/>
+                                <Label Content="{x:Static properties:Resources.Environment_NoiseLevel}"/>
+                                <TextBox Text="{Binding EnvironmentSettings.NoiseLevel, UpdateSourceTrigger=LostFocus}"
+                                    PreviewTextInput="NoiseLevelTextBox_PreviewTextInput"
+                                    TextChanged="NoiseLevelTextBox_TextChanged"/>
 
-                                    <Button Content="{x:Static properties:Resources.Graphs_SpectrumButton}"
-                                            Grid.Column="1"
-                                            Command="{Binding ShowSpectrumCommand}"
-                                            Margin="5,0"
-                                            Padding="10,2"
-                                            MinWidth="60"/>
-                                </Grid>
-
-                                <!-- График сигнала -->
-                                <lvc:CartesianChart Series="{Binding Series}" 
-                                    Height="200"
-                                    DisableAnimations="True">
-                                    <lvc:CartesianChart.AxisX>
-                                        <lvc:Axis Title="{x:Static properties:Resources.Graphs_TimeAxis}"
-                                            LabelFormatter="{Binding XAxisFormatter}">
-                                            <lvc:Axis.Separator>
-                                                <lvc:Separator Step="5"/>
-                                            </lvc:Axis.Separator>
-                                        </lvc:Axis>
-                                    </lvc:CartesianChart.AxisX>
-                                    <lvc:CartesianChart.AxisY>
-                                        <lvc:Axis Title="{x:Static properties:Resources.Graphs_AmplitudeAxis}"
-                                            MinValue="{Binding MinAmplitude}" 
-                                            MaxValue="{Binding MaxAmplitude}"
-                                            LabelFormatter="{Binding YAxisFormatter}"/>
-                                    </lvc:CartesianChart.AxisY>
-                                </lvc:CartesianChart>
+                                <Label Content="{x:Static properties:Resources.Environment_SoundSpeed}"/>
+                                <TextBlock Text="{Binding EnvironmentSettings.SoundSpeed, StringFormat={}{0:F2}}"
+                                    Margin="0,5" FontStyle="Italic"/>
                             </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Вкладка источника звука -->
+            <TabItem Header="{x:Static properties:Resources.Source}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <GroupBox Header="{x:Static properties:Resources.Source_Pos}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Label Content="{x:Static properties:Resources.Source_PosX}" Grid.Row="0" Grid.Column="0"/>
+                                <TextBox Text="{Binding AudioSource.X, UpdateSourceTrigger=PropertyChanged}" 
+                                        Grid.Row="0" Grid.Column="1"/>
+
+                                <Label Content="{x:Static properties:Resources.Source_PosY}" Grid.Row="1" Grid.Column="0"/>
+                                <TextBox Text="{Binding AudioSource.Y, UpdateSourceTrigger=PropertyChanged}" 
+                                        Grid.Row="1" Grid.Column="1"/>
+
+                                <Label Content="{x:Static properties:Resources.Source_PosZ}" Grid.Row="2" Grid.Column="0"/>
+                                <TextBox Text="{Binding AudioSource.Z, UpdateSourceTrigger=PropertyChanged}" 
+                                        Grid.Row="2" Grid.Column="1"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="{x:Static properties:Resources.Source_SignalParametrs}">
+                            <StackPanel>
+                                <Label Content="{x:Static properties:Resources.Source_SignalFrequency}"/>
+                                <TextBox Text="{Binding AudioSource.Frequency, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                <Label Content="{x:Static properties:Resources.Source_SignalAmplitude}"/>
+                                <TextBox Text="{Binding AudioSource.Amplitude, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                <Label Content="{x:Static properties:Resources.Source_SignalPhase}"/>
+                                <TextBox Text="{Binding AudioSource.Phase, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Вкладка геометрии решетки -->
+            <TabItem Header="{x:Static properties:Resources.Array}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <GroupBox Header="{x:Static properties:Resources.Array_ArrayCenter}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Label Content="{x:Static properties:Resources.Array_ArrayCenterX}" Grid.Row="0" Grid.Column="0"/>
+                                <TextBox Text="{Binding MicrophoneArray.CenterX, UpdateSourceTrigger=PropertyChanged}" 
+                                        Grid.Row="0" Grid.Column="1"/>
+
+                                <Label Content="{x:Static properties:Resources.Array_ArrayCenterY}" Grid.Row="1" Grid.Column="0"/>
+                                <TextBox Text="{Binding MicrophoneArray.CenterY, UpdateSourceTrigger=PropertyChanged}" 
+                                        Grid.Row="1" Grid.Column="1"/>
+
+                                <Label Content="{x:Static properties:Resources.Array_ArrayCenterZ}" Grid.Row="2" Grid.Column="0"/>
+                                <TextBox Text="{Binding MicrophoneArray.CenterZ, UpdateSourceTrigger=PropertyChanged}" 
+                                        Grid.Row="2" Grid.Column="1"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="{x:Static properties:Resources.Array_ArrayParametrs}">
+                            <StackPanel>
+                                <Label Content="{x:Static properties:Resources.Array_Radius}"/>
+                                <TextBox Text="{Binding MicrophoneArray.Radius, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                <Label Content="{x:Static properties:Resources.Array_MicrophonesCount}"/>
+                                <ComboBox SelectedValue="{Binding MicrophoneArray.MicrophoneCount}"
+                                    SelectedValuePath="Content"
+                                    Margin="0,0,0,10">
+                                    <ComboBoxItem>4</ComboBoxItem>
+                                    <ComboBoxItem>8</ComboBoxItem>
+                                    <ComboBoxItem>16</ComboBoxItem>
+                                    <ComboBoxItem>32</ComboBoxItem>
+                                </ComboBox>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Вкладка сетевых настроек и управления -->
+            <TabItem Header="{x:Static properties:Resources.Network}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <GroupBox Header="{x:Static properties:Resources.Network_ServerSettings}">
+                            <StackPanel>
+                                <Label Content="{x:Static properties:Resources.Network_LocalIP}"/>
+                                <ComboBox ItemsSource="{Binding NetworkSettings.AvailableIPs}"
+                         SelectedItem="{Binding NetworkSettings.LocalIP}"
+                         Margin="0,0,0,10"/>
+
+                                <Label Content="{x:Static properties:Resources.Network_LocalPort}"/>
+                                <TextBox Text="{Binding NetworkSettings.LocalPort, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="0,0,0,10"/>
+
+                                <Label Content="{x:Static properties:Resources.Network_RemoteIP}"/>
+                                <TextBox Text="{Binding NetworkSettings.RemoteIP, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="0,0,0,10"/>
+
+                                <Label Content="{x:Static properties:Resources.Network_RemotePort}"/>
+                                <TextBox Text="{Binding NetworkSettings.RemotePort, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="0,0,0,10"/>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20">
+                                    <Button Content="{x:Static properties:Resources.Network_StartServer}" 
+                            Command="{Binding StartServerCommand}"
+                            Margin="5" Padding="15,5" MinWidth="100"/>
+
+                                    <Button Content="{x:Static properties:Resources.Network_StopServer}" 
+                            Command="{Binding StopServerCommand}"
+                            Margin="5" Padding="15,5" MinWidth="100"/>
+
+                                    <Button Content="{x:Static properties:Resources.Network_TestConnection}" 
+                            Command="{Binding TestConnectionCommand}"
+                            Margin="5" Padding="15,5" MinWidth="100"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+                                    <Button Content="{x:Static properties:Resources.Network_SendReport}"
+                            Command="{Binding SendDetectionReportCommand}"
+                            Margin="5" Padding="15,5" MinWidth="120"/>
+
+                                    <Button Content="{x:Static properties:Resources.Network_SendPacket}"
+                            Command="{Binding SendAdcDataCommand}"
+                            Margin="5" Padding="15,5" MinWidth="120"/>
+                                </StackPanel>
+
+                                <Button Content="Применить настройки" 
+                        Command="{Binding ApplySettingsCommand}"
+                        HorizontalAlignment="Center" Margin="0,20"
+                        Padding="20,10" FontWeight="Bold" MinWidth="150"/>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
