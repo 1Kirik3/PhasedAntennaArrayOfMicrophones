@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:PAAOM_Client"
+        xmlns:properties="clr-namespace:PAAOM_Client.Properties"
         mc:Ignorable="d"
-        Title="PAAOM Client - Графики сигналов" Height="750" Width="1000">
+        Title="{x:Static properties:Resources.Window_Main}" Height="750" Width="1000">
     <Window.Resources>
         <Style TargetType="TextBlock" x:Key="HeaderStyle">
             <Setter Property="FontWeight" Value="Bold"/>
@@ -31,9 +32,9 @@
 
         <!-- Первая строка: Панель управления и статус -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,5" HorizontalAlignment="Left">
-            <Button x:Name="ConnectButton" Content="Подключиться" 
+            <Button x:Name="ConnectButton" Content="{x:Static properties:Resources.Network_ConnectButton}" 
                     Click="ConnectButton_Click" Margin="5" Padding="10,5"/>
-            <Button x:Name="DisconnectButton" Content="Отключиться" 
+            <Button x:Name="DisconnectButton" Content="{x:Static properties:Resources.Network_DisconnectButton}"
                     Click="DisconnectButton_Click" Margin="5" Padding="10,5"/>
             <TextBlock x:Name="StatusText" Margin="10" VerticalAlignment="Center" 
                        TextWrapping="Wrap" MinWidth="200"/>
@@ -100,7 +101,7 @@
                                                Style="{StaticResource HeaderStyle}"
                                                TextWrapping="Wrap"/>
 
-                                    <Button Content="Спектр" 
+                                    <Button Content="{x:Static properties:Resources.Graphs_SpectrumButton}" 
                                             Grid.Column="1"
                                             Command="{Binding ShowSpectrumCommand}"
                                             Margin="5,0"
@@ -114,7 +115,7 @@
                                     DisableAnimations="True"
                                     Margin="0,5">
                                     <lvc:CartesianChart.AxisX>
-                                        <lvc:Axis Title="Время, мс" 
+                                        <lvc:Axis Title="{x:Static properties:Resources.Graphs_TimeAxis}" 
                                             LabelFormatter="{Binding XAxisFormatter}">
                                             <lvc:Axis.Separator>
                                                 <lvc:Separator Step="{Binding TimeStep}"/>
@@ -122,7 +123,7 @@
                                         </lvc:Axis>
                                     </lvc:CartesianChart.AxisX>
                                     <lvc:CartesianChart.AxisY>
-                                        <lvc:Axis Title="Амплитуда" 
+                                        <lvc:Axis Title="{x:Static properties:Resources.Graphs_AmplitudeAxis}" 
                                             LabelFormatter="{Binding YAxisFormatter}"/>
                                     </lvc:CartesianChart.AxisY>
                                 </lvc:CartesianChart>

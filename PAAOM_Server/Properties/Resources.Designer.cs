@@ -187,6 +187,33 @@ namespace PAAOM_Server.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Амплитуда.
+        /// </summary>
+        public static string Graphs_AmplitudeAxis {
+            get {
+                return ResourceManager.GetString("Graphs_AmplitudeAxis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Спектр.
+        /// </summary>
+        public static string Graphs_SpectrumButton {
+            get {
+                return ResourceManager.GetString("Graphs_SpectrumButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Время, с.
+        /// </summary>
+        public static string Graphs_TimeAxis {
+            get {
+                return ResourceManager.GetString("Graphs_TimeAxis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Настройки.
         /// </summary>
         public static string MainWindow_Settings {

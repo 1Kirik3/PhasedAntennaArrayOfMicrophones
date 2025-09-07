@@ -14,7 +14,6 @@ namespace PAAOM_Common.Network.Models
 
         public AdcDataPacket()
         {
-            // Инициализируем массив для 8 каналов
             ChannelSamples = new short[8][];
             for (int i = 0; i < 8; i++)
             {
@@ -56,7 +55,6 @@ namespace PAAOM_Common.Network.Models
             packet.Reserved = BinaryPrimitives.ReadUInt16LittleEndian(bodyBuffer.Slice(offset, 2));
             offset += 2;
 
-            // Читаем отсчеты всех каналов
             for (int channel = 0; channel < 8; channel++)
             {
                 for (int sample = 0; sample < 125; sample++)
