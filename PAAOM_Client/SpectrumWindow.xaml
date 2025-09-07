@@ -1,12 +1,12 @@
-﻿<Window x:Class="PAAOM_Server.SpectrumWindow"
+﻿<Window x:Class="PAAOM_Client.SpectrumWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-        xmlns:liveCharts="clr-namespace:LiveCharts;assembly=LiveCharts"
+        xmlns:properties="clr-namespace:PAAOM_Client.Properties"
         mc:Ignorable="d"
-        Title="Spectrum Analyzer" 
+        Title="{x:Static properties:Resources.SpectrumWindow_Title}"
         Height="500" 
         Width="700"
         MinWidth="400"
@@ -24,47 +24,45 @@
         <!-- Заголовок и кнопки управления -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5">
             <Button x:Name="BtnAutoScale" 
-                    Content="Автомасштаб" 
+                    Content="{x:Static properties:Resources.SpectrumWindow_Autoscale}"
                     Width="100" 
                     Margin="5,0"
                     Click="AutoScale_Click"
-                    ToolTip="Автоматически подогнать масштаб по пиковым значениям"/>
+                    ToolTip="{x:Static properties:Resources.SpectrumWindow_Autoscale_Tooltip}"/>
         </StackPanel>
 
         <!-- Основной график -->
         <lvc:CartesianChart x:Name="SpectrumChart"
-                  Grid.Row="1"
-                  LegendLocation="None"
-                  Hoverable="True"
-                  DisableAnimations="True"
-                  Zoom="Xy"
-                  DataTooltip="{x:Null}"
-                  Padding="5"
-                  Margin="0"
-                  Background="White"
-                  ClipToBounds="True">
+                          Grid.Row="1"
+                          LegendLocation="None"
+                          Hoverable="True"
+                          DisableAnimations="True"
+                          Zoom="Xy"
+                          DataTooltip="{x:Null}"
+                          Padding="5"
+                          Margin="0"
+                          Background="White"
+                          ClipToBounds="True">
 
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Частота (Гц)" 
-               LabelFormatter="{Binding XAxisFormatter}"
-               Separator="{x:Static lvc:DefaultAxes.CleanSeparator}"/>
+                <lvc:Axis Title="{x:Static properties:Resources.SpectrumWindow_FrequencyAxis}" 
+                       LabelFormatter="{Binding XAxisFormatter}"/>
             </lvc:CartesianChart.AxisX>
 
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="Амплитуда" 
-               LabelFormatter="{Binding YAxisFormatter}"
-               Separator="{x:Static lvc:DefaultAxes.CleanSeparator}"/>
+                <lvc:Axis Title="{x:Static properties:Resources.SpectrumWindow_AmplitudeAxis}"
+                       LabelFormatter="{Binding YAxisFormatter}"/>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
 
         <!-- Статусная строка -->
         <StatusBar Grid.Row="2" Background="#FFE0E0E0">
             <StatusBarItem>
-                <TextBlock x:Name="TbPeakInfo" Text="Пик: не определен"/>
+                <TextBlock x:Name="PeakInfo" Text="Пик: не определен"/>
             </StatusBarItem>
             <Separator/>
             <StatusBarItem>
-                <TextBlock x:Name="TbFrequencyRange" Text="Диапазон: 0 - 0 Гц"/>
+                <TextBlock x:Name="FrequencyRange" Text="Диапазон: 0 - 0 Гц"/>
             </StatusBarItem>
         </StatusBar>
     </Grid>

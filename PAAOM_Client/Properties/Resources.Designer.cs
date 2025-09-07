@@ -106,6 +106,51 @@ namespace PAAOM_Client.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Амплитуда.
+        /// </summary>
+        public static string SpectrumWindow_AmplitudeAxis {
+            get {
+                return ResourceManager.GetString("SpectrumWindow_AmplitudeAxis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Автомасштаб.
+        /// </summary>
+        public static string SpectrumWindow_Autoscale {
+            get {
+                return ResourceManager.GetString("SpectrumWindow_Autoscale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Автоматически подогнать масштаб по пиковым значениям.
+        /// </summary>
+        public static string SpectrumWindow_Autoscale_Tooltip {
+            get {
+                return ResourceManager.GetString("SpectrumWindow_Autoscale_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Частота (Гц).
+        /// </summary>
+        public static string SpectrumWindow_FrequencyAxis {
+            get {
+                return ResourceManager.GetString("SpectrumWindow_FrequencyAxis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Амплитудный спектр канала.
+        /// </summary>
+        public static string SpectrumWindow_Title {
+            get {
+                return ResourceManager.GetString("SpectrumWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Графики сигналов.
         /// </summary>
         public static string Window_Main {

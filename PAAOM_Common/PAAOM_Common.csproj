@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="Models\AudioSource.cs" />
     <Compile Include="Models\EnvironmentSettings.cs" />
     <Compile Include="Models\Interfaces\IAudioSource.cs" />
