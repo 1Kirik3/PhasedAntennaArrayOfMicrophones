@@ -2,7 +2,7 @@
 using PAAOM_Server.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Media.Media3D;
+using PAAOM_Common.Models;
 
 namespace PAAOM_Server.ViewModels
 {

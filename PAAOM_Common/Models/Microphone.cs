@@ -1,5 +1,4 @@
-﻿using System.Windows.Media.Media3D;
-
+﻿
 namespace PAAOM_Common.Models
 {
 	public class Microphone

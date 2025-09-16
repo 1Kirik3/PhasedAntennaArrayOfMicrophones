@@ -1,5 +1,4 @@
 ﻿using PAAOM_Common.Models.Interfaces;
-using System.Windows.Media.Media3D;
 
 namespace PAAOM_Common.Models
 {
