@@ -16,7 +16,7 @@ namespace PAAOM_Common.Models
 		public event Action<Point3D> ArrayCenterChanged;
 		public event EventHandler GeometryUpdated;
 
-		private readonly IEnvironmentSettings _environment;
+		private readonly IEnvironment _environment;
 		private readonly IAudioSource _source;
 
 		IReadOnlyList<Microphone> IMicrophoneArray.Microphones => _microphones.AsReadOnly();
@@ -69,7 +69,7 @@ namespace PAAOM_Common.Models
 			}
 		}
 
-		public MicrophoneArray(IEnvironmentSettings environmentSettings, IAudioSource audioSource)
+		public MicrophoneArray(IEnvironment environmentSettings, IAudioSource audioSource)
 		{
 			_environment = environmentSettings ?? throw new ArgumentNullException(nameof(environmentSettings));
 			_source = audioSource ?? throw new ArgumentNullException(nameof(audioSource));

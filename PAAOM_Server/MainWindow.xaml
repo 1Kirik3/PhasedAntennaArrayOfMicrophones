@@ -26,15 +26,22 @@
             <Setter Property="Margin" Value="10"/>
             <Setter Property="Padding" Value="10"/>
         </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="MinWidth" Value="100"/>
+        </Style>
     </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Заголовок и статус -->
+        <!-- Верхняя панель с заголовком и статусом -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
             <TextBlock Text="{x:Static properties:Resources.MainWindow_Titile}" FontSize="16" FontWeight="Bold" Margin="0,0,10,0"/>
             <TextBlock Text="{Binding NetworkStatus}" 
@@ -43,8 +50,33 @@
                        VerticalAlignment="Center"/>
         </StackPanel>
 
+        <!-- Панель управления настройками (вынесена за табы) -->
+        <Border Grid.Row="1" Background="#F0F0F0" Padding="10" Margin="0,0,0,5">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="{x:Static properties:Resources.MainWindow_LoadSettingsButton}"
+                        Command="{Binding LoadSettingsCommand}"
+                        ToolTip="Загрузить сохраненные настройки из файла"
+                        Style="{StaticResource {x:Type Button}}"
+                        MinWidth="120"/>
+
+                <Button Content="{x:Static properties:Resources.MainWindow_SaveSettingsButton}"
+                        Command="{Binding SaveSettingsCommand}"
+                        ToolTip="Сохранить текущие настройки в файл"
+                        Style="{StaticResource {x:Type Button}}"
+                        MinWidth="120"/>
+
+                <Button Content="{x:Static properties:Resources.MainWindow_ApplySettingsButton}"
+                        Command="{Binding ApplySettingsCommand}"
+                        ToolTip="Применить текущие настройки системы"
+                        Style="{StaticResource {x:Type Button}}"
+                        MinWidth="120"
+                        FontWeight="Bold"
+                        Margin="20,0,0,0"/>
+            </StackPanel>
+        </Border>
+
         <!-- Основная область с настройками -->
-        <TabControl Grid.Row="1" Margin="10">
+        <TabControl Grid.Row="2" Margin="10">
             <!-- Вкладка параметров среды -->
             <TabItem Header="{x:Static properties:Resources.Environment}">
                 <ScrollViewer>
@@ -210,11 +242,6 @@
                             Command="{Binding SendAdcDataCommand}"
                             Margin="5" Padding="15,5" MinWidth="120"/>
                                 </StackPanel>
-
-                                <Button Content="Применить настройки" 
-                        Command="{Binding ApplySettingsCommand}"
-                        HorizontalAlignment="Center" Margin="0,20"
-                        Padding="20,10" FontWeight="Bold" MinWidth="150"/>
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>

@@ -1,7 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using PAAOM_Common.Models;
-using PAAOM_Common.Network.Interfaces;
+﻿using PAAOM_Common.Models;
 using PAAOM_Common.Network.Services;
+using PAAOM_Server.Services;
 using PAAOM_Server.ViewModels;
 using System.Windows;
 
@@ -11,8 +10,7 @@ namespace PAAOM_Server
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            // Инициализация моделей
-            var envSettings = new EnvironmentSettings
+            var envSettings = new PAAOM_Common.Models.Environment
             {
                 TemperatureCelsius = 20.0f,
                 NoiseLevel = 0.05f
@@ -22,28 +20,33 @@ namespace PAAOM_Server
             {
                 Frequency = 500f,
                 Amplitude = 1.0f,
-                Position = new System.Windows.Media.Media3D.Point3D(5, 5, 0)
+                Position = new Point3D(5, 5, 0)
             };
 
             var micArray = new MicrophoneArray(envSettings, audioSource)
             {
                 Radius = 0.5f,
-                ArrayCenter = new System.Windows.Media.Media3D.Point3D(0, 0, 0)
+                ArrayCenter = new Point3D(0, 0, 0)
             };
 
-            // Инициализация сетевого сервиса
             var crcCalculator = new Crc16Calculator();
             var packetBuilder = new PacketBuilder(crcCalculator);
             var networkService = new UdpNetworkService(packetBuilder);
+            var settingsService = new SettingsService();
 
-            // Создание ViewModel
             var settingsViewModel = new SettingsViewModel(
                 envSettings,
-                audioSource,
-                micArray,
-                networkService);
+                audioSource, 
+                micArray,    
+                networkService,
+                settingsService);
 
-            // Создание и отображение главного окна
+            var mainViewModel = new MainViewModel(
+                envSettings,
+                audioSource, 
+                micArray,  
+                settingsService);
+
             var mainWindow = new MainWindow();
             mainWindow.DataContext = settingsViewModel;
             mainWindow.Show();

@@ -214,6 +214,33 @@ namespace PAAOM_Server.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Применить настройки.
+        /// </summary>
+        public static string MainWindow_ApplySettingsButton {
+            get {
+                return ResourceManager.GetString("MainWindow_ApplySettingsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Загрузить настройки.
+        /// </summary>
+        public static string MainWindow_LoadSettingsButton {
+            get {
+                return ResourceManager.GetString("MainWindow_LoadSettingsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Сохранить настройки.
+        /// </summary>
+        public static string MainWindow_SaveSettingsButton {
+            get {
+                return ResourceManager.GetString("MainWindow_SaveSettingsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Настройки.
         /// </summary>
         public static string MainWindow_Settings {

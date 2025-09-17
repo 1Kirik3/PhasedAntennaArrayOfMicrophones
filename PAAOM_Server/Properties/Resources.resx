@@ -243,4 +243,13 @@
   <data name="Graphs_TimeAxis" xml:space="preserve">
     <value>Время, с</value>
   </data>
+  <data name="MainWindow_ApplySettingsButton" xml:space="preserve">
+    <value>Применить настройки</value>
+  </data>
+  <data name="MainWindow_SaveSettingsButton" xml:space="preserve">
+    <value>Сохранить настройки</value>
+  </data>
+  <data name="MainWindow_LoadSettingsButton" xml:space="preserve">
+    <value>Загрузить настройки</value>
+  </data>
 </root>

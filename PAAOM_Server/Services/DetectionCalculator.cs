@@ -6,7 +6,7 @@ namespace PAAOM_Server.Services
 {
     public class DetectionCalculator
     {
-        private readonly IEnvironmentSettings _environment;
+        private readonly IEnvironment _environment;
         private readonly IAudioSource _audioSource;
         private readonly IMicrophoneArray _microphoneArray;
         private readonly SignalGenerator _signalGenerator;
@@ -16,7 +16,7 @@ namespace PAAOM_Server.Services
         private float _lastBearing = 0;
         private float _lastDistance = 0;
 
-        public DetectionCalculator(IEnvironmentSettings environment, IAudioSource audioSource, IMicrophoneArray microphoneArray)
+        public DetectionCalculator(IEnvironment environment, IAudioSource audioSource, IMicrophoneArray microphoneArray)
         {
             _environment = environment;
             _audioSource = audioSource;

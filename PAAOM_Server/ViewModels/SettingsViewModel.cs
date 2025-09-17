@@ -1,4 +1,5 @@
-﻿using PAAOM_Common.Models.Interfaces;
+﻿using PAAOM_Common.Models;
+using PAAOM_Common.Models.Interfaces;
 using PAAOM_Common.Network.Interfaces;
 using PAAOM_Common.Network.Models;
 using PAAOM_Server.Services;
@@ -15,6 +16,10 @@ namespace PAAOM_Server.ViewModels
     public class SettingsViewModel : INotifyPropertyChanged
     {
         private readonly INetworkService _networkService;
+        private readonly ISettingsService _settingsService;
+        private readonly IEnvironment _environment;
+        private readonly IAudioSource _source;
+        private readonly IMicrophoneArray _array;
 
         private readonly DetectionCalculator _detectionCalculator;
         private readonly AdcDataGenerator _adcDataGenerator;
@@ -33,6 +38,10 @@ namespace PAAOM_Server.ViewModels
         public RelayCommand TestConnectionCommand { get; }
         public RelayCommand SendDetectionReportCommand { get; }
         public RelayCommand SendAdcDataCommand { get; }
+
+        public ICommand LoadSettingsCommand { get; }
+        public ICommand SaveSettingsCommand { get; }
+
 
         private string _networkStatus = "Сервер остановлен";
         public string NetworkStatus
@@ -57,12 +66,18 @@ namespace PAAOM_Server.ViewModels
         }
 
         public SettingsViewModel(
-            IEnvironmentSettings envSettings,
+            IEnvironment envSettings,
             IAudioSource audioSource,
             IMicrophoneArray microphoneArray,
-            INetworkService networkService)
+            INetworkService networkService,
+            ISettingsService settingsService)
         {
+            _environment = envSettings;
+            _source = audioSource;
+            _array = microphoneArray;
             _networkService = networkService;
+            _settingsService = settingsService;
+
             _detectionCalculator = new DetectionCalculator(envSettings, audioSource, microphoneArray);
             _adcDataGenerator = new AdcDataGenerator(envSettings, audioSource, microphoneArray);
 
@@ -80,9 +95,12 @@ namespace PAAOM_Server.ViewModels
             SendDetectionReportCommand = new RelayCommand(SendDetectionReport, CanSendData);
             SendAdcDataCommand = new RelayCommand(SendAdcData, CanSendData);
 
+            LoadSettingsCommand = new RelayCommand(async () => await LoadSettingsAsync(true));
+            SaveSettingsCommand = new RelayCommand(async () => await SaveSettingsAsync(true));
+            _ = LoadSettingsAsync(false);
+
             LoadAvailableIPs();
 
-            // Подписка на события сети
             _networkService.AvailabilityResponseReceived += OnAvailabilityResponseReceived;
             _networkService.DetectionReportReceived += OnDetectionReportReceived;
             _networkService.AdcDataReceived += OnAdcDataReceived;
@@ -108,10 +126,8 @@ namespace PAAOM_Server.ViewModels
 
                 MessageBox.Show($"Сервер запущен на {localEndpoint}", "Успех");
 
-                // Сбрасываем статус соединения
                 _isConnectionVerified = false;
 
-                // ВАЖНО: Обновляем состояние ВСЕХ команд
                 UpdateAllCommands();
             }
             catch (Exception ex)
@@ -268,7 +284,6 @@ namespace PAAOM_Server.ViewModels
             }
         }
 
-
         private void StopServer()
         {
             try
@@ -297,8 +312,65 @@ namespace PAAOM_Server.ViewModels
             //_logger?.LogInformation("Настройки применены");
         }
 
+        private async Task LoadSettingsAsync(bool showMessage = false)
+        {
+            try
+            {
+                var settings = await _settingsService.LoadSettingsAsync();
+
+                await _settingsService.ApplySettingsAsync(settings, _environment, _source, _array,
+                    () => {
+                        NetworkSettings.LocalIP = settings.Network.LocalIP;
+                        NetworkSettings.LocalPort = settings.Network.LocalPort;
+                        NetworkSettings.RemoteIP = settings.Network.RemoteIP;
+                        NetworkSettings.RemotePort = settings.Network.RemotePort;
+
+                        OnPropertyChanged(nameof(NetworkSettings));
+                    });
+
+                //EnvironmentSettings.RefreshAllProperties();
+                AudioSource.RefreshAllProperties();
+                //MicrophoneArray.RefreshAllProperties();
+
+                if (showMessage)
+                {
+                    MessageBox.Show("Настройки успешно загружены!", "Успех");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (showMessage)
+                {
+                    MessageBox.Show($"Ошибка загрузки настроек: {ex.Message}", "Ошибка");
+                }
+            }
+        }
+
+        private async Task SaveSettingsAsync(bool showMessage = false)
+        {
+            try
+            {
+                var settings = _settingsService.CreateSettingsFromModels(
+                    _environment, _source, _array, NetworkSettings);
+
+                await _settingsService.SaveSettingsAsync(settings);
+
+                if (showMessage)
+                {
+                    MessageBox.Show("Настройки успешно сохранены!", "Успех");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (showMessage)
+                {
+                    MessageBox.Show($"Ошибка сохранения настроек: {ex.Message}", "Ошибка");
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        public virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

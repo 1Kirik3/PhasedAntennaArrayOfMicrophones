@@ -3,7 +3,7 @@ using System;
 
 namespace PAAOM_Common.Models
 {
-	public class EnvironmentSettings : IEnvironmentSettings
+	public class Environment : IEnvironment
 	{
 		private float _temperatureCelsius = 20f;
 		private float _noiseLevel = 0.05f;
@@ -11,11 +11,11 @@ namespace PAAOM_Common.Models
 		public event Action<float> TemperatureChanged;
 		public event Action<float> NoiseLevelChanged;
 
-		public EnvironmentSettings()
+		public Environment()
 		{
 		}
 
-		public EnvironmentSettings(float temperatureCelsius, float noiseLevel)
+		public Environment(float temperatureCelsius, float noiseLevel)
 		{
 			TemperatureCelsius = temperatureCelsius;
 			NoiseLevel = noiseLevel;

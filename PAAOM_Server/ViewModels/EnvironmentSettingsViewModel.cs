@@ -7,11 +7,11 @@ namespace PAAOM_Server.ViewModels
 {
 	public class EnvironmentSettingsViewModel : INotifyPropertyChanged
 	{
-		private readonly IEnvironmentSettings _settings;
+		private readonly IEnvironment _settings;
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public EnvironmentSettingsViewModel(IEnvironmentSettings settings)
+		public EnvironmentSettingsViewModel(IEnvironment settings)
 		{
 			_settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
@@ -25,7 +25,7 @@ namespace PAAOM_Server.ViewModels
 			_settings.NoiseLevelChanged -= OnNoiseLevelChanged;
 		}
 
-		private void OnTemperatureChanged(float newValue)
+        private void OnTemperatureChanged(float newValue)
 		{
 			OnPropertyChanged(nameof(Temperature));
 			OnPropertyChanged(nameof(SoundSpeed));

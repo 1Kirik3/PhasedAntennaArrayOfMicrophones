@@ -7,7 +7,7 @@ namespace PAAOM_Server.Services
 {
     public class AdcDataGenerator
     {
-        private readonly IEnvironmentSettings _environment;
+        private readonly IEnvironment _environment;
         private readonly IAudioSource _audioSource;
         private readonly IMicrophoneArray _microphoneArray;
         private readonly SignalGenerator _signalGenerator;
@@ -15,7 +15,7 @@ namespace PAAOM_Server.Services
         private ushort _sequenceNumber = 0;
         private static ushort _currentPacketId = 0;
 
-        public AdcDataGenerator(IEnvironmentSettings environment, IAudioSource audioSource, IMicrophoneArray microphoneArray)
+        public AdcDataGenerator(IEnvironment environment, IAudioSource audioSource, IMicrophoneArray microphoneArray)
         {
             _environment = environment;
             _audioSource = audioSource;

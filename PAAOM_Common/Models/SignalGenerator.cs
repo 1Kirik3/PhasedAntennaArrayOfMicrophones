@@ -15,7 +15,7 @@ namespace PAAOM_Common.Models
         public const double OutputSampleRate = _highSampleRate / _decimationFactor; // 1250 Hz
         public const int OutputSamplesCount = 125; // 100ms при 1250 Hz
 
-        public List<double[]> GenerateSignals(IMicrophoneArray array, IAudioSource source, IEnvironmentSettings env)
+        public List<double[]> GenerateSignals(IMicrophoneArray array, IAudioSource source, IEnvironment env)
         {
             var results = new List<double[]>();
 
@@ -118,7 +118,7 @@ namespace PAAOM_Common.Models
             return output;
         }
 
-        public List<double[]> GenerateSignalsWithValidation(IMicrophoneArray array, IAudioSource source, IEnvironmentSettings env)
+        public List<double[]> GenerateSignalsWithValidation(IMicrophoneArray array, IAudioSource source, IEnvironment env)
         {
             if (source.Frequency > OutputSampleRate / 2)
             {

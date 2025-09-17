@@ -17,7 +17,17 @@ namespace PAAOM_Server.ViewModels
 			_source = source ?? throw new ArgumentNullException(nameof(source));
 		}
 
-		public float X
+        public void RefreshAllProperties()
+        {
+            OnPropertyChanged(nameof(X));
+            OnPropertyChanged(nameof(Y));
+            OnPropertyChanged(nameof(Z));
+            OnPropertyChanged(nameof(Frequency));
+            OnPropertyChanged(nameof(Amplitude));
+            OnPropertyChanged(nameof(Phase));
+        }
+
+        public float X
 		{
 			get => (float)_source.Position.X;
 			set

@@ -2,7 +2,7 @@
 
 namespace PAAOM_Common.Models.Interfaces
 {
-	public interface IEnvironmentSettings
+	public interface IEnvironment
 	{
 		float TemperatureCelsius { get; set; }
 		float NoiseLevel { get; set; }
