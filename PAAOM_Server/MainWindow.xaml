@@ -244,6 +244,30 @@
                                 </StackPanel>
                             </StackPanel>
                         </GroupBox>
+
+                        <!-- Упрощенная группа для управления отправкой данных -->
+                        <GroupBox Header="{x:Static properties:Resources.Network_DataSenderController}" Margin="0,10,0,0">
+                            <StackPanel>
+                                <Label Content="{x:Static properties:Resources.Network_SendInterval}"/>
+                                <TextBox Text="{Binding SendingIntervalMs, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:F2}}"
+                                    Margin="0,0,0,5"
+                                    ToolTip="Интервал между отправкой пакетов данных"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="{Binding IsSendingDataText}"
+                                    Command="{Binding ToggleDataSendingCommand}"
+                                    Margin="5" Padding="15,5" MinWidth="120"/>
+                                </StackPanel>
+                                <TextBlock Text="{Binding CurrentDistance, StringFormat='Расстояние: {0:F2} м'}"
+                                    HorizontalAlignment="Center" Margin="0,5"
+                                    FontStyle="Italic"/>
+                                <TextBlock Text="{Binding SoundTransmissionTimeMs, StringFormat='Время передачи: {0:F2} мс'}"
+                                    HorizontalAlignment="Center" Margin="0,5"
+                                    FontStyle="Italic"/>
+                                <TextBlock Text="{Binding PacketCounter, StringFormat='Отправлено пакетов: {0}'}"
+                                    HorizontalAlignment="Center" Margin="0,5"
+                                    FontStyle="Italic"/>
+                            </StackPanel>
+                        </GroupBox>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

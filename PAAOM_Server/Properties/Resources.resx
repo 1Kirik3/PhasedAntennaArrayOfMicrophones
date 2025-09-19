@@ -252,4 +252,10 @@
   <data name="MainWindow_LoadSettingsButton" xml:space="preserve">
     <value>Загрузить настройки</value>
   </data>
+  <data name="Network_DataSenderController" xml:space="preserve">
+    <value>Управление отправкой данных</value>
+  </data>
+  <data name="Network_SendInterval" xml:space="preserve">
+    <value>Интервал отправки (мс)</value>
+  </data>
 </root>

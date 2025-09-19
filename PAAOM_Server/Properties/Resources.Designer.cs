@@ -286,6 +286,15 @@ namespace PAAOM_Server.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Управление отправкой данных.
+        /// </summary>
+        public static string Network_DataSenderController {
+            get {
+                return ResourceManager.GetString("Network_DataSenderController", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Локальный IP.
         /// </summary>
         public static string Network_LocalIP {
@@ -318,6 +327,15 @@ namespace PAAOM_Server.Properties {
         public static string Network_RemotePort {
             get {
                 return ResourceManager.GetString("Network_RemotePort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Интервал отправки (мс).
+        /// </summary>
+        public static string Network_SendInterval {
+            get {
+                return ResourceManager.GetString("Network_SendInterval", resourceCulture);
             }
         }
         

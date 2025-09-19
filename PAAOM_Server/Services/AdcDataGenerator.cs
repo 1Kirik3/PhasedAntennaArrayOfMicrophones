@@ -23,26 +23,25 @@ namespace PAAOM_Server.Services
             _signalGenerator = new SignalGenerator();
         }
 
-        public AdcDataPacket GenerateAdcData()
+        public AdcDataPacket GenerateAdcData(uint startTime = 0)
         {
             var signals = _signalGenerator.GenerateSignals(_microphoneArray, _audioSource, _environment);
-            var currentTime = DateTime.Now;
 
             var packet = new AdcDataPacket
             {
                 PacketId = _currentPacketId++,
                 SequenceNumber = _sequenceNumber++,
-                StartTime = (uint)(currentTime.TimeOfDay.TotalSeconds),
+                StartTime = startTime > 0 ? startTime : (uint)(DateTime.Now.TimeOfDay.TotalSeconds),
                 Reserved = 0
             };
 
-            // Проверка кол-ва отсчетов
+            // Для SampleRate = 1250 Гц генерируем 125 отсчетов
             for (int channel = 0; channel < Math.Min(8, signals.Count); channel++)
             {
                 if (signals[channel].Length != 125)
                 {
                     throw new InvalidOperationException(
-                        $"Неверное количество отсчетов после децимации: {signals[channel].Length}, ожидалось 125");
+                        $"Неверное количество отсчетов: {signals[channel].Length}, ожидалось 125");
                 }
 
                 for (int sample = 0; sample < 125; sample++)

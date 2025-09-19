@@ -1,9 +1,10 @@
-﻿using PAAOM_Common.Models;
+﻿using PAAOM_Common;
 using PAAOM_Common.Models.Interfaces;
 using PAAOM_Common.Network.Interfaces;
 using PAAOM_Common.Network.Models;
 using PAAOM_Server.Services;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
@@ -27,6 +28,9 @@ namespace PAAOM_Server.ViewModels
         private ushort _currentPacketId = 1234;
         private bool _isConnectionVerified = false;
 
+        private System.Timers.Timer _dataSendTimer;
+        private uint _timeCounter = 0;
+
         public EnvironmentSettingsViewModel EnvironmentSettings { get; }
         public AudioSourceViewModel AudioSource { get; }
         public MicrophoneArrayViewModel MicrophoneArray { get; }
@@ -38,6 +42,7 @@ namespace PAAOM_Server.ViewModels
         public RelayCommand TestConnectionCommand { get; }
         public RelayCommand SendDetectionReportCommand { get; }
         public RelayCommand SendAdcDataCommand { get; }
+        public RelayCommand ToggleDataSendingCommand { get; }
 
         public ICommand LoadSettingsCommand { get; }
         public ICommand SaveSettingsCommand { get; }
@@ -64,6 +69,69 @@ namespace PAAOM_Server.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        private bool _isSendingData = false;
+        public bool IsSendingData
+        {
+            get => _isSendingData;
+            set
+            {
+                _isSendingData = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsSendingDataText));
+            }
+        }
+
+        public string IsSendingDataText => IsSendingData ? "Отправка: ВКЛ" : "Отправка: ВЫКЛ";
+
+        private double _sendingIntervalMs = 100; 
+        public double SendingIntervalMs
+        {
+            get => _sendingIntervalMs;
+            set
+            {
+                _sendingIntervalMs = value;
+                OnPropertyChanged();
+                if (_dataSendTimer != null)
+                {
+                    _dataSendTimer.Interval = value;
+                }
+            }
+        }
+
+        private ushort _packetCounter = 0;
+        public ushort PacketCounter
+        {
+            get => _packetCounter;
+            set
+            {
+                _packetCounter = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double _soundTransmissionTimeMs = 0;
+        public double SoundTransmissionTimeMs
+        {
+            get => _soundTransmissionTimeMs;
+            set
+            {
+                _soundTransmissionTimeMs = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double _currentDistance = 0;
+        public double CurrentDistance
+        {
+            get => _currentDistance;
+            set
+            {
+                _currentDistance = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public SettingsViewModel(
             IEnvironment envSettings,
@@ -94,16 +162,87 @@ namespace PAAOM_Server.ViewModels
             TestConnectionCommand = new RelayCommand(TestConnection, CanTestConnection);
             SendDetectionReportCommand = new RelayCommand(SendDetectionReport, CanSendData);
             SendAdcDataCommand = new RelayCommand(SendAdcData, CanSendData);
+            ToggleDataSendingCommand = new RelayCommand(ToggleDataSending, CanToggleDataSending);
 
             LoadSettingsCommand = new RelayCommand(async () => await LoadSettingsAsync(true));
             SaveSettingsCommand = new RelayCommand(async () => await SaveSettingsAsync(true));
             _ = LoadSettingsAsync(false);
+
+            CalculateSoundTransmissionTime();
+            _dataSendTimer = new System.Timers.Timer(SendingIntervalMs);
+            _dataSendTimer.Elapsed += async (s, e) => await SendDataPeriodically();
+            _dataSendTimer.AutoReset = true;
 
             LoadAvailableIPs();
 
             _networkService.AvailabilityResponseReceived += OnAvailabilityResponseReceived;
             _networkService.DetectionReportReceived += OnDetectionReportReceived;
             _networkService.AdcDataReceived += OnAdcDataReceived;
+
+            AudioSource.PropertyChanged += OnAudioSourcePropertyChanged;
+            EnvironmentSettings.PropertyChanged += OnEnvironmentPropertyChanged;
+        }
+
+        ~SettingsViewModel()
+        {
+            // Отписываемся от событий
+            if (AudioSource != null)
+            {
+                AudioSource.PropertyChanged -= OnAudioSourcePropertyChanged;
+            }
+            if (EnvironmentSettings != null)
+            {
+                EnvironmentSettings.PropertyChanged -= OnEnvironmentPropertyChanged;
+            }
+        }
+
+        private void OnAudioSourcePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(AudioSource.X) ||
+                e.PropertyName == nameof(AudioSource.Y) ||
+                e.PropertyName == nameof(AudioSource.Z))
+            {
+                // Пересчитываем время передачи при изменении позиции источника
+                CalculateSoundTransmissionTime();
+            }
+        }
+
+        private void OnEnvironmentPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(EnvironmentSettings.SoundSpeed))
+            {
+                // Пересчитываем время передачи при изменении скорости звука
+                CalculateSoundTransmissionTime();
+            }
+        }
+
+        private void CalculateSoundTransmissionTime()
+        {
+            try
+            {
+                var center = _array.ArrayCenter;
+                var sourcePos = _source.Position;
+
+                double dx = sourcePos.X - center.X;
+                double dy = sourcePos.Y - center.Y;
+                double dz = sourcePos.Z - center.Z;
+
+                double distance = Math.Sqrt(dx * dx + dy * dy + dz * dz);
+                CurrentDistance = Math.Round(distance, 2);
+
+                double soundSpeed = _environment.SoundSpeed; // м/с
+                SoundTransmissionTimeMs = (distance / soundSpeed) * 1000;
+
+                SendingIntervalMs = Math.Max(10, SoundTransmissionTimeMs); 
+
+                Debug.WriteLine($"Расстояние: {distance:F2} м, Скорость звука: {soundSpeed:F2} м/с, " +
+                               $"Время передачи: {SoundTransmissionTimeMs:F2} мс, Интервал: {SendingIntervalMs:F2} мс");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Ошибка расчета времени передачи: {ex.Message}");
+                SendingIntervalMs = 100;
+            }
         }
 
         private async void StartServer()
@@ -128,6 +267,8 @@ namespace PAAOM_Server.ViewModels
 
                 _isConnectionVerified = false;
 
+                CalculateSoundTransmissionTime();
+
                 UpdateAllCommands();
             }
             catch (Exception ex)
@@ -147,6 +288,7 @@ namespace PAAOM_Server.ViewModels
             TestConnectionCommand.RaiseCanExecuteChanged();
             SendDetectionReportCommand.RaiseCanExecuteChanged();
             SendAdcDataCommand.RaiseCanExecuteChanged();
+            ToggleDataSendingCommand.RaiseCanExecuteChanged();
         }
 
         private async void TestConnection()
@@ -175,6 +317,48 @@ namespace PAAOM_Server.ViewModels
             }
         }
 
+        private void ToggleDataSending()
+        {
+            IsSendingData = !IsSendingData;
+
+            if (IsSendingData)
+            {
+                CalculateSoundTransmissionTime();
+                _dataSendTimer.Start();
+            }
+            else
+            {
+                _dataSendTimer.Stop();
+            }
+
+            UpdateAllCommands();
+        }
+
+        private async Task SendDataPeriodically()
+        {
+            if (!IsSendingData || !_networkService.IsListening) return;
+
+            try
+            {
+                CalculateSoundTransmissionTime();
+
+                await SendAdcDataPeriodic();
+
+                if (_packetCounter % 10 == 0)
+                {
+                    await SendDetectionReportPeriodic();
+                }
+
+                PacketCounter = _packetCounter;
+                _packetCounter++;
+                _timeCounter += (uint)(SendingIntervalMs / 1000.0 * Constants.SampleRate);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Ошибка отправки данных: {ex.Message}");
+            }
+        }
+
         private async void SendDetectionReport()
         {
             if (!_isConnectionVerified)
@@ -198,6 +382,22 @@ namespace PAAOM_Server.ViewModels
             }
         }
 
+        private async Task SendDetectionReportPeriodic()
+        {
+            if (!_isConnectionVerified) return;
+
+            try
+            {
+                var detectionReport = _detectionCalculator.CalculateDetectionReport();
+                detectionReport.PacketId = _currentPacketId++;
+                await _networkService.SendAsync(detectionReport);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Ошибка отправки отчета: {ex.Message}");
+            }
+        }
+
         private async void SendAdcData()
         {
             if (!_isConnectionVerified)
@@ -211,7 +411,6 @@ namespace PAAOM_Server.ViewModels
                 var adcPacket = _adcDataGenerator.GenerateAdcData();
                 adcPacket.PacketId = _currentPacketId++;
 
-                // Проверяем данные перед отправкой
                 ValidateAdcData(adcPacket);
 
                 bool success = await _networkService.SendAsync(adcPacket);
@@ -221,6 +420,26 @@ namespace PAAOM_Server.ViewModels
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка генерации ADC данных: {ex.Message}", "Ошибка");
+            }
+        }
+
+        private async Task SendAdcDataPeriodic()
+        {
+            if (!_isConnectionVerified) return;
+
+            try
+            {
+                var adcPacket = _adcDataGenerator.GenerateAdcData();
+                adcPacket.PacketId = _currentPacketId++;
+                adcPacket.SequenceNumber = _packetCounter;
+                adcPacket.StartTime = _timeCounter / Constants.SampleRate;
+
+                ValidateAdcData(adcPacket);
+                await _networkService.SendAsync(adcPacket);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Ошибка генерации ADC данных: {ex.Message}");
             }
         }
 
@@ -253,13 +472,17 @@ namespace PAAOM_Server.ViewModels
 
         private bool CanStartServer() => !_networkService.IsListening;
         private bool CanStopServer() => _networkService.IsListening;
+        private bool CanToggleDataSending()
+        {
+            return _isConnectionVerified && _networkService.IsListening;
+        }
+        private bool CanSendData() => _isConnectionVerified && _networkService.IsListening;
         private bool CanTestConnection()
         {
             bool canExecute = _networkService.IsListening;
             Console.WriteLine($"CanTestConnection: {canExecute}, IsListening: {_networkService.IsListening}");
             return canExecute;
         }
-        private bool CanSendData() => _isConnectionVerified && _networkService.IsListening;
 
         private void LoadAvailableIPs()
         {
