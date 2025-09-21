@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:properties="clr-namespace:PAAOM_Server.Properties"
+        xmlns:validation="clr-namespace:PAAOM_Common.ValidationRules;assembly=PAAOM_Common"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="{x:Static properties:Resources.MainWindow_SystemParametrs}" 
         Height="600" 
@@ -12,9 +14,19 @@
         MinHeight="500">
 
     <Window.Resources>
-        <Style TargetType="TextBox">
+        <!-- Стиль для TextBox с валидацией -->
+        <Style TargetType="TextBox" x:Key="ValidatedTextBox">
             <Setter Property="Margin" Value="0,0,0,10"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" 
+                            Value="{Binding RelativeSource={RelativeSource Self}, 
+                                   Path=(Validation.Errors)[0].ErrorContent}"/>
+                    <Setter Property="Background" Value="#FFFFE0E0"/>
+                    <Setter Property="BorderBrush" Value="Red"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style TargetType="Label">
@@ -37,8 +49,11 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <!-- Заголовок и статус -->
             <RowDefinition Height="Auto"/>
+            <!-- Панель кнопок -->
             <RowDefinition Height="*"/>
+            <!-- TabControl (займет все оставшееся пространство) -->
         </Grid.RowDefinitions>
 
         <!-- Верхняя панель с заголовком и статусом -->
@@ -51,7 +66,7 @@
         </StackPanel>
 
         <!-- Панель управления настройками (вынесена за табы) -->
-        <Border Grid.Row="1" Background="#F0F0F0" Padding="10" Margin="0,0,0,5">
+        <Border Grid.Row="1" Background="#F0F0F0" Padding="10" Margin="10,5,10,10">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="{x:Static properties:Resources.MainWindow_LoadSettingsButton}"
                         Command="{Binding LoadSettingsCommand}"
@@ -76,7 +91,7 @@
         </Border>
 
         <!-- Основная область с настройками -->
-        <TabControl Grid.Row="2" Margin="10">
+        <TabControl Grid.Row="2" Margin="10,0,10,10">
             <!-- Вкладка параметров среды -->
             <TabItem Header="{x:Static properties:Resources.Environment}">
                 <ScrollViewer>
@@ -84,12 +99,32 @@
                         <GroupBox Header="{x:Static properties:Resources.Environment_AirParametrs}">
                             <StackPanel>
                                 <Label Content="{x:Static properties:Resources.Environment_AirTemperature}"/>
-                                <TextBox Text="{Binding EnvironmentSettings.Temperature, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox Style="{StaticResource ValidatedTextBox}">
+                                    <TextBox.Text>
+                                        <Binding Path="EnvironmentSettings.Temperature" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <validation:NumericValidationRule 
+                                                    Min="{x:Static validation:ValidationConstants.MinTemperature}"
+                                                    Max="{x:Static validation:ValidationConstants.MaxTemperature}"
+                                                    ErrorMessage="Температура должна быть между -100 и 100°C"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
                                 <Label Content="{x:Static properties:Resources.Environment_NoiseLevel}"/>
-                                <TextBox Text="{Binding EnvironmentSettings.NoiseLevel, UpdateSourceTrigger=LostFocus}"
-                                    PreviewTextInput="NoiseLevelTextBox_PreviewTextInput"
-                                    TextChanged="NoiseLevelTextBox_TextChanged"/>
+                                <TextBox Style="{StaticResource ValidatedTextBox}">
+                                    <TextBox.Text>
+                                        <Binding Path="EnvironmentSettings.NoiseLevel" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <validation:NumericValidationRule 
+                                                    Min="{x:Static validation:ValidationConstants.MinNoiseLevel}"
+                                                    Max="{x:Static validation:ValidationConstants.MaxNoiseLevel}"
+                                                    ErrorMessage="Уровень шума должен быть между 0 и 1"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
                                 <Label Content="{x:Static properties:Resources.Environment_SoundSpeed}"/>
                                 <TextBlock Text="{Binding EnvironmentSettings.SoundSpeed, StringFormat={}{0:F2}}"
@@ -117,29 +152,92 @@
                                 </Grid.RowDefinitions>
 
                                 <Label Content="{x:Static properties:Resources.Source_PosX}" Grid.Row="0" Grid.Column="0"/>
-                                <TextBox Text="{Binding AudioSource.X, UpdateSourceTrigger=PropertyChanged}" 
-                                        Grid.Row="0" Grid.Column="1"/>
+                                <TextBox Style="{StaticResource ValidatedTextBox}" Grid.Row="0" Grid.Column="1">
+                                    <TextBox.Text>
+                                        <Binding Path="AudioSource.X" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <validation:NumericValidationRule 
+                                                    Min="{x:Static validation:ValidationConstants.MinCoordinate}"
+                                                    Max="{x:Static validation:ValidationConstants.MaxCoordinate}"
+                                                    ErrorMessage="Координата X должна быть в пределах ±1000 м"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
                                 <Label Content="{x:Static properties:Resources.Source_PosY}" Grid.Row="1" Grid.Column="0"/>
-                                <TextBox Text="{Binding AudioSource.Y, UpdateSourceTrigger=PropertyChanged}" 
-                                        Grid.Row="1" Grid.Column="1"/>
+                                <TextBox Style="{StaticResource ValidatedTextBox}" Grid.Row="1" Grid.Column="1">
+                                    <TextBox.Text>
+                                        <Binding Path="AudioSource.Y" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <validation:NumericValidationRule 
+                                                    Min="{x:Static validation:ValidationConstants.MinCoordinate}"
+                                                    Max="{x:Static validation:ValidationConstants.MaxCoordinate}"
+                                                    ErrorMessage="Координата Y должна быть в пределах ±1000 м"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
                                 <Label Content="{x:Static properties:Resources.Source_PosZ}" Grid.Row="2" Grid.Column="0"/>
-                                <TextBox Text="{Binding AudioSource.Z, UpdateSourceTrigger=PropertyChanged}" 
-                                        Grid.Row="2" Grid.Column="1"/>
+                                <TextBox Style="{StaticResource ValidatedTextBox}" Grid.Row="2" Grid.Column="1">
+                                    <TextBox.Text>
+                                        <Binding Path="AudioSource.Z" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <validation:NumericValidationRule 
+                                                    Min="{x:Static validation:ValidationConstants.MinCoordinate}"
+                                                    Max="{x:Static validation:ValidationConstants.MaxCoordinate}"
+                                                    ErrorMessage="Координата Z должна быть в пределах ±1000 м"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
                             </Grid>
                         </GroupBox>
 
                         <GroupBox Header="{x:Static properties:Resources.Source_SignalParametrs}">
                             <StackPanel>
                                 <Label Content="{x:Static properties:Resources.Source_SignalFrequency}"/>
-                                <TextBox Text="{Binding AudioSource.Frequency, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox Style="{StaticResource ValidatedTextBox}">
+                                    <TextBox.Text>
+                                        <Binding Path="AudioSource.Frequency" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <validation:NumericValidationRule 
+                                                    Min="0"
+                                                    Max="{x:Static validation:ValidationConstants.MaxFrequency}"
+                                                    ErrorMessage="Частота не должна превышать 625 Гц (по теореме Найквиста)"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
                                 <Label Content="{x:Static properties:Resources.Source_SignalAmplitude}"/>
-                                <TextBox Text="{Binding AudioSource.Amplitude, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox Style="{StaticResource ValidatedTextBox}">
+                                    <TextBox.Text>
+                                        <Binding Path="AudioSource.Amplitude" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <validation:NumericValidationRule 
+                                                    Min="{x:Static validation:ValidationConstants.MinAmplitude}"
+                                                    Max="{x:Static validation:ValidationConstants.MaxAmplitude}"
+                                                    ErrorMessage="Амплитуда должна быть между 0 и 10"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
                                 <Label Content="{x:Static properties:Resources.Source_SignalPhase}"/>
-                                <TextBox Text="{Binding AudioSource.Phase, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Style="{StaticResource ValidatedTextBox}">
+                                    <TextBox.Text>
+                                        <Binding Path="AudioSource.Phase" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <validation:NumericValidationRule 
+                                                    Min="{x:Static validation:ValidationConstants.MinPhase}"
+                                                    Max="{x:Static validation:ValidationConstants.MaxPhase}"
+                                                    ErrorMessage="Фаза должна быть между -π и π радиан"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>
@@ -163,23 +261,64 @@
                                 </Grid.RowDefinitions>
 
                                 <Label Content="{x:Static properties:Resources.Array_ArrayCenterX}" Grid.Row="0" Grid.Column="0"/>
-                                <TextBox Text="{Binding MicrophoneArray.CenterX, UpdateSourceTrigger=PropertyChanged}" 
-                                        Grid.Row="0" Grid.Column="1"/>
+                                <TextBox Style="{StaticResource ValidatedTextBox}" Grid.Row="0" Grid.Column="1">
+                                    <TextBox.Text>
+                                        <Binding Path="MicrophoneArray.CenterX" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <validation:NumericValidationRule 
+                                                    Min="{x:Static validation:ValidationConstants.MinCoordinate}"
+                                                    Max="{x:Static validation:ValidationConstants.MaxCoordinate}"
+                                                    ErrorMessage="Координата X центра должна быть в пределах ±1000 м"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
                                 <Label Content="{x:Static properties:Resources.Array_ArrayCenterY}" Grid.Row="1" Grid.Column="0"/>
-                                <TextBox Text="{Binding MicrophoneArray.CenterY, UpdateSourceTrigger=PropertyChanged}" 
-                                        Grid.Row="1" Grid.Column="1"/>
+                                <TextBox Style="{StaticResource ValidatedTextBox}" Grid.Row="1" Grid.Column="1">
+                                    <TextBox.Text>
+                                        <Binding Path="MicrophoneArray.CenterY" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <validation:NumericValidationRule 
+                                                    Min="{x:Static validation:ValidationConstants.MinCoordinate}"
+                                                    Max="{x:Static validation:ValidationConstants.MaxCoordinate}"
+                                                    ErrorMessage="Координата Y центра должна быть в пределах ±1000 м"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
                                 <Label Content="{x:Static properties:Resources.Array_ArrayCenterZ}" Grid.Row="2" Grid.Column="0"/>
-                                <TextBox Text="{Binding MicrophoneArray.CenterZ, UpdateSourceTrigger=PropertyChanged}" 
-                                        Grid.Row="2" Grid.Column="1"/>
+                                <TextBox Style="{StaticResource ValidatedTextBox}" Grid.Row="2" Grid.Column="1">
+                                    <TextBox.Text>
+                                        <Binding Path="MicrophoneArray.CenterZ" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <validation:NumericValidationRule 
+                                                    Min="{x:Static validation:ValidationConstants.MinCoordinate}"
+                                                    Max="{x:Static validation:ValidationConstants.MaxCoordinate}"
+                                                    ErrorMessage="Координата Z центра должна быть в пределах ±1000 м"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
                             </Grid>
                         </GroupBox>
 
                         <GroupBox Header="{x:Static properties:Resources.Array_ArrayParametrs}">
                             <StackPanel>
                                 <Label Content="{x:Static properties:Resources.Array_Radius}"/>
-                                <TextBox Text="{Binding MicrophoneArray.Radius, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox Style="{StaticResource ValidatedTextBox}">
+                                    <TextBox.Text>
+                                        <Binding Path="MicrophoneArray.Radius" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <validation:NumericValidationRule 
+                                                    Min="{x:Static validation:ValidationConstants.MinRadius}"
+                                                    Max="{x:Static validation:ValidationConstants.MaxRadius}"
+                                                    ErrorMessage="Радиус массива должен быть между 0.1 и 10 м"/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
                                 <Label Content="{x:Static properties:Resources.Array_MicrophonesCount}"/>
                                 <ComboBox SelectedValue="{Binding MicrophoneArray.MicrophoneCount}"
@@ -248,10 +387,6 @@
                         <!-- Упрощенная группа для управления отправкой данных -->
                         <GroupBox Header="{x:Static properties:Resources.Network_DataSenderController}" Margin="0,10,0,0">
                             <StackPanel>
-                                <Label Content="{x:Static properties:Resources.Network_SendInterval}"/>
-                                <TextBox Text="{Binding SendingIntervalMs, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:F2}}"
-                                    Margin="0,0,0,5"
-                                    ToolTip="Интервал между отправкой пакетов данных"/>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <Button Content="{Binding IsSendingDataText}"
                                     Command="{Binding ToggleDataSendingCommand}"
