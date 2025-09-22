@@ -12,7 +12,7 @@ namespace PAAOM_Server
 
         private void ApplySettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (DataContext is SettingsViewModel viewModel)
+            if (DataContext is MainSettingsViewModel viewModel)
             {
                 viewModel.ApplySettingsCommand.Execute(null);
                 MessageBox.Show("Настройки успешно применены!", "Успех",

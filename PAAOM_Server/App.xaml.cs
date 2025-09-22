@@ -34,7 +34,7 @@ namespace PAAOM_Server
             var networkService = new UdpNetworkService(packetBuilder);
             var settingsService = new SettingsService();
 
-            var settingsViewModel = new SettingsViewModel(
+            var settingsViewModel = new MainSettingsViewModel(
                 envSettings,
                 audioSource, 
                 micArray,    
